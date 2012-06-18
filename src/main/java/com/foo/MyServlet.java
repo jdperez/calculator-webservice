@@ -5,7 +5,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.Math;
+import java.util.Enumeration;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,8 +18,27 @@ import java.lang.Math;
  */
 
 public class MyServlet extends HttpServlet {
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.getWriter().print("hello,world!");
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // Must set content type first
+        resp.setContentType("text/html");
+        PrintWriter out = resp.getWriter();
+        Enumeration params = req.getParameterNames();
+        String paramName = null;
+        String[] paramValues = null;
+
+        while(params.hasMoreElements()){
+            paramName = (String) params.nextElement();
+            paramValues = req.getParameterValues(paramName);
+            out.println("\nParameter name is " + paramName);
+            for (int i=0; i<paramValues.length; i++){
+                out.println(", value " + i + " is " + paramValues[i].toString());
+            }
+        }
+
 
     }
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doPost(req, resp);
+    }
+
 }
