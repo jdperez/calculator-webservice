@@ -21,18 +21,19 @@ import static org.junit.Assert.assertThat;
 @RunWith(Parameterized.class)
 public class CalculatorParameterizedTest {
     private final String operation;
-    private final int operand1;
-    private final int operand2;
-    private final int expectedResult;
+    private final String operand1;
+    private final String operand2;
+    private final String expectedResult;
 
     @Parameterized.Parameters
     public static Collection<Object[]> parameters(){
         return Arrays.asList(
-                new Object[]{"ADD", 1, 2, 3},
-                new Object[]{"ADD", 5, 10, 15}
+                new Object[]{"ADD", "1", "2", "3"},
+                new Object[]{"ADD", "5", "10", "15"},
+                new Object[]{"ADD", "5.1", "10.2", "15.3"}
         );
     }
-    public CalculatorParameterizedTest(String operation, int operand1, int operand2, int expectedResult){
+    public CalculatorParameterizedTest(String operation, String operand1, String operand2, String expectedResult){
 
         this.operation = operation;
         this.operand1 = operand1;
@@ -43,7 +44,7 @@ public class CalculatorParameterizedTest {
     @Test
     public void additionSucceeds(){
         Calculator calculator = new Calculator();
-        int calculateResult = calculator.calculate(operation,operand1,operand2);
+        String calculateResult = calculator.calculate(operation,operand1,operand2);
         assertThat(calculateResult,equalTo(expectedResult));
     }
 }

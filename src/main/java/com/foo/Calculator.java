@@ -1,5 +1,7 @@
 package com.foo;
 
+import java.text.DecimalFormat;
+
 /**
  * Created with IntelliJ IDEA.
  * User: jose5124
@@ -9,7 +11,23 @@ package com.foo;
  */
 public class Calculator {
 
-    public int calculate(String operation, int operand1, int operand2) {
-        return operand1+operand2;
+    public String calculate(String operation, String operand1, String operand2) {
+        if (isInteger(operand1)) {
+            return String.valueOf(Integer.parseInt(operand1) + Integer.parseInt(operand2));
+        } else {
+            double d = Double.parseDouble(operand1) + Double.parseDouble(operand2);
+            DecimalFormat twoDecimalForm = new DecimalFormat("#.######");
+            return String.valueOf(Double.valueOf(twoDecimalForm.format(d)));
+        }
+    }
+
+    private static boolean isInteger(String string) {
+        try {
+            Integer.valueOf(string);
+            return true;
+        }
+        catch(NumberFormatException nfe) {
+            return false;
+        }
     }
 }
