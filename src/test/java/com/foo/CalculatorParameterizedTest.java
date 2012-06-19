@@ -30,7 +30,12 @@ public class CalculatorParameterizedTest {
         return Arrays.asList(
                 new Object[]{"ADD", "1", "2", "3"},
                 new Object[]{"ADD", "5", "10", "15"},
-                new Object[]{"ADD", "5.1", "10.2", "15.3"}
+                new Object[]{"ADD", "0", "0", "0"},
+                new Object[]{"ADD", "-1", "2", "1"},
+                new Object[]{"ADD", "-5", "-2", "-7"},
+                new Object[]{"ADD", "5.1", "10.2", "15.3"},
+                new Object[]{"ADD", "0.0", "0.0", "0.0"},
+                new Object[]{"ADD", "-1.0", "-0.5", "-1.5"}
         );
     }
     public CalculatorParameterizedTest(String operation, String operand1, String operand2, String expectedResult){
