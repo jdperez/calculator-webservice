@@ -29,43 +29,14 @@ public class MyServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Calculator calculator = new Calculator();
-        String operator = "";
-        String operand1 = "";
-        String operand2 = "";
+        String operator = req.getParameter("operator");
+        String operand1 = req.getParameter("operand1");
+        String operand2 = req.getParameter("operand2");
 
         // Must set content type first
         resp.setContentType("text/html");
         PrintWriter out = resp.getWriter();
-        Enumeration params = req.getParameterNames();
-        String paramName = null;
-        String[] paramValues = null;
-
-        while(params.hasMoreElements()){
-            paramName = (String) params.nextElement();
-            paramValues = req.getParameterValues(paramName);
-
-            switch (CalculatorButtons.valueOf(paramName)) {
-                case firstOperand:
-                    out.print("operand1 value is " + paramValues[0]+"<br />");
-                    break;
-                case secondOperand:
-                    out.print("operand2 value is " + paramValues[0]+"<br />");
-                    break;
-                case addButton:
-                    out.print("addButton hit <br />");
-                    break;
-                default:
-                    break;
-            }
-
-        //    out.println("\nParameter name is " + paramName);
-        //    for (int i=0; i<paramValues.length; i++){
-        //        out.println(", value " + i + " is " + paramValues[i].toString());
-        //    }
-        }
-
-     //
-
+        out.print(calculator.calculate(operator, operand1, operand2));
     }
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

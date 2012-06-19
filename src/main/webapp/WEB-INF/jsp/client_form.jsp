@@ -13,12 +13,12 @@ label {width:150px;float:left;}
 <H2>Simple Calculator</H2>
 
 <form action="http://localhost:8080/project1-1.0/foo/" method="post">
-<div class=”field_container”><label>First operand</label><input type=”text” name="firstOperand"></div>
-<div class=”field_container”><label>Second operand</label><input type="text" name="secondOperand"></div> <br />
-<input type="submit" name="addButton" value="ADD">
-<input type="submit" name="subtractButton" value="SUBTRACT">
-<input type="submit" name="multiplyButton"  value="MULTIPLY">
-<input type="submit" name="divideButton" value="DIVIDE">
+<div class=”field_container”><label>First operand</label><input type=”text” name="operand1"></div>
+<div class=”field_container”><label>Second operand</label><input type="text" name="operand2"></div> <br />
+<input type="submit" name="operator" value="ADD">
+<input type="submit" name="operator" value="SUBTRACT">
+<input type="submit" name="operator"  value="MULTIPLY">
+<input type="submit" name="operator" value="DIVIDE">
 </form>
 
 </body>
