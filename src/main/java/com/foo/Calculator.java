@@ -12,12 +12,12 @@ import java.text.DecimalFormat;
 public class Calculator {
 
     public String calculate(String operation, String operand1, String operand2) {
+       // int test = maxValueCheck(operand1,operand2);
         if (isInteger(operand1) && isInteger(operand2)) {
             return String.valueOf(Integer.parseInt(operand1) + Integer.parseInt(operand2));
         } else {
             double d = Double.parseDouble(operand1) + Double.parseDouble(operand2);
             DecimalFormat tenDecimalForm = new DecimalFormat("0.0###########");
-            // return String.valueOf(Double.valueOf(twoDecimalForm.format(d)));
             return tenDecimalForm.format(d);
         }
     }

@@ -18,7 +18,21 @@ import java.util.Enumeration;
  */
 
 public class MyServlet extends HttpServlet {
+    enum CalculatorButtons {
+        firstOperand,
+        secondOperand,
+        addButton,
+        subtractButton,
+        multiplyButton,
+        divideButton;
+    }
+
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Calculator calculator = new Calculator();
+        String operator = "";
+        String operand1 = "";
+        String operand2 = "";
+
         // Must set content type first
         resp.setContentType("text/html");
         PrintWriter out = resp.getWriter();
@@ -29,16 +43,34 @@ public class MyServlet extends HttpServlet {
         while(params.hasMoreElements()){
             paramName = (String) params.nextElement();
             paramValues = req.getParameterValues(paramName);
-            out.println("\nParameter name is " + paramName);
-            for (int i=0; i<paramValues.length; i++){
-                out.println(", value " + i + " is " + paramValues[i].toString());
+
+            switch (CalculatorButtons.valueOf(paramName)) {
+                case firstOperand:
+                    out.print("operand1 value is " + paramValues[0]+"<br />");
+                    break;
+                case secondOperand:
+                    out.print("operand2 value is " + paramValues[0]+"<br />");
+                    break;
+                case addButton:
+                    out.print("addButton hit <br />");
+                    break;
+                default:
+                    break;
             }
+
+        //    out.println("\nParameter name is " + paramName);
+        //    for (int i=0; i<paramValues.length; i++){
+        //        out.println(", value " + i + " is " + paramValues[i].toString());
+        //    }
         }
 
+     //
 
     }
+
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doPost(req, resp);
+        req.getRequestDispatcher("/WEB-INF/jsp/client_form.jsp").forward(req,resp);
     }
 
 }
+

@@ -28,17 +28,23 @@ public class CalculatorParameterizedTest {
     @Parameterized.Parameters
     public static Collection<Object[]> parameters(){
         return Arrays.asList(
+                //Integer tests
                 new Object[]{"ADD", "1", "2", "3"},
                 new Object[]{"ADD", "5", "10", "15"},
                 new Object[]{"ADD", "0", "0", "0"},
                 new Object[]{"ADD", "-1", "2", "1"},
                 new Object[]{"ADD", "-5", "-2", "-7"},
+                //new Object[]{"ADD", "1000000000", "2000000000","3000000000"},
+                //Decimal tests
                 new Object[]{"ADD", "0.0", "0.0", "0.0"},
                 new Object[]{"ADD", "-1.0", "-0.5", "-1.5"},
                 new Object[]{"ADD", "5.1", "10.2", "15.3"},
                 new Object[]{"ADD", "-5.0", "5.0", "0.0"},
                 new Object[]{"ADD", "0.00000000001", "0.00000000001", "0.00000000002"},
-                new Object[]{"ADD", "10", "10.0", "20.0"}
+                //Mixed operands tests
+                new Object[]{"ADD", "10", "10.0", "20.0"},
+                new Object[]{"ADD", "-10.0","5","-5.0"}
+
         );
     }
     public CalculatorParameterizedTest(String operation, String operand1, String operand2, String expectedResult){
