@@ -18,15 +18,6 @@ import java.util.Enumeration;
  */
 
 public class MyServlet extends HttpServlet {
-    enum CalculatorButtons {
-        firstOperand,
-        secondOperand,
-        addButton,
-        subtractButton,
-        multiplyButton,
-        divideButton;
-    }
-
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Calculator calculator = new Calculator();
         String operator = req.getParameter("operator");
@@ -42,6 +33,5 @@ public class MyServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("/WEB-INF/jsp/client_form.jsp").forward(req,resp);
     }
-
 }
 
