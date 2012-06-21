@@ -34,6 +34,7 @@ public class CalculatorParameterizedTest {
                 new Object[]{"ADD", "0", "0", "0"},
                 new Object[]{"ADD", "-1", "2", "1"},
                 new Object[]{"ADD", "-5", "-2", "-7"},
+                new Object[]{"ADD", "", "", "Not enough operands."},
                 //new Object[]{"ADD", "1000000000", "2000000000","3000000000"},
                 //Decimal tests
                 new Object[]{"ADD", "0.0", "0.0", "0.0"},

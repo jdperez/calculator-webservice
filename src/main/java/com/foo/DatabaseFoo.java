@@ -1,5 +1,7 @@
 package com.foo;
 
+import org.h2.tools.Server;
+
 import java.sql.*;
 
 /**
@@ -11,17 +13,18 @@ import java.sql.*;
  */
 public class DatabaseFoo {
     public static void main(String[] args) throws SQLException {
-        Connection connection = DriverManager.getConnection("jdbc:h2:mem", "sa", "");
+        Server server = Server.createTcpServer().start();
+        Connection connection = DriverManager.getConnection("jdbc:h2:tcp://localhost/test", "sa", "");
         try{
             Statement statement = connection.createStatement();
+
             ResultSet resultSet = statement.executeQuery("select * from foo");
             while(resultSet.next()){
                 System.out.println(resultSet.getString("Name"));
             }
         }
-
-
         finally {
+            server.stop();
             connection.close();
         }
     }

@@ -13,6 +13,9 @@ public class Calculator {
 
     public String calculate(String operation, String operand1, String operand2) {
        // int test = maxValueCheck(operand1,operand2);
+        if (operand1.equals("") || operand2.equals("")) {
+            return "Not enough operands.";
+        }
         if (isInteger(operand1) && isInteger(operand2)) {
             return String.valueOf(Integer.parseInt(operand1) + Integer.parseInt(operand2));
         } else {
