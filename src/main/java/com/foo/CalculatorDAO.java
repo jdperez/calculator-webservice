@@ -10,37 +10,52 @@ import java.sql.*;
  * Time: 4:47 PM
  * To change this template use File | Settings | File Templates.
  */
-public class DatabaseFoo {
-    int insertCount = 0;
+public class CalculatorDAO {
+    private int insertCount = 0;
+    private String typeOfDAO;
 
-    public static void main(String[] args) throws SQLException {
-        Connection connection = DriverManager.getConnection("jdbc:h2:tcp://localhost/test", "sa", "");
-        try{
-            //createTable(connection);
-            Statement statement = connection.createStatement();
-
-            ResultSet resultSet = statement.executeQuery("select * from CalculatorEntries");
-            while(resultSet.next()){
-                System.out.println(resultSet.getString("Name"));
-            }
-        }
-        finally {
-            //server.stop();
-            connection.close();
-        }
+    public CalculatorDAO(String typeOfDAO) {
+        this.typeOfDAO = typeOfDAO;
     }
 
-    public static Connection getConnection() throws SQLException{
-        Connection connection = DriverManager.getConnection("jdbc:h2:mem:Foo;DB_CLOSE_DELAY=-1", "sa", "");
+    public CalculatorDAO() {
+        this("jdbc:h2:mem:Foo;DB_CLOSE_DELAY=-1");
+    }
+
+    public Connection getConnection() throws SQLException{
+        Connection connection = DriverManager.getConnection(typeOfDAO, "sa", "");
         return connection;
     }
 
+    public void closeConnection(Connection connection) throws SQLException {
+        connection.close();
+    }
+
+    public int getCurrentMaxKey() {
+        int maxKey = 0;
+        try {
+            Connection connection = getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT key FROM CalculatorDatabase ");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()) {
+                int currentKey = resultSet.getInt(1);
+                //System.out.println(currentKey);
+                if (currentKey > maxKey) maxKey = currentKey;
+            }
+
+        } catch (SQLException e) {
+            System.err.println("SQLException: " + e.getMessage());
+        }
+        return maxKey;
+    }
+
     public int save(String[] databaseInputs) {
-        insertCount++;
+        int insertKey = getCurrentMaxKey() + 1;
         try {
             Connection connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO CalculatorDatabase VALUES (?,?,?,?,?)");
-            preparedStatement.setInt(1,insertCount);
+
+            preparedStatement.setInt(1,insertKey);
             for (int i = 0; i < databaseInputs.length; i++) {
                 preparedStatement.setString(i+2,databaseInputs[i]);
             }
@@ -48,7 +63,8 @@ public class DatabaseFoo {
         } catch (SQLException e) {
             System.err.println("SQLException: " + e.getMessage());
         }
-        return insertCount;  //To change body of created methods use File | Settings | File Templates.
+        System.out.println("current key # is "+insertKey);
+        return insertKey;
     }
 
     public String[] load(int key) {
@@ -66,7 +82,7 @@ public class DatabaseFoo {
         } catch (SQLException e){
             System.err.println("SQLException: " + e.getMessage());
         }
-        return new String[0];  //To change body of created methods use File | Settings | File Templates.
+        return new String[0];
     }
 
     public void createTable() {
