@@ -21,6 +21,9 @@ public class Calculator {
             return "ERROR, divide by zero";
         }
 
+
+        DecimalFormat tenDecimalForm = new DecimalFormat("0.0###########");
+
         switch(operation) {
             case ("ADD"):
                 if (isInteger(operand1) && isInteger(operand2)) {
@@ -28,7 +31,6 @@ public class Calculator {
                 }
                 else {
                     double d = Double.parseDouble(operand1) + Double.parseDouble(operand2);
-                    DecimalFormat tenDecimalForm = new DecimalFormat("0.0###########");
                     result = tenDecimalForm.format(d);
                 } break;
 
@@ -38,7 +40,6 @@ public class Calculator {
                 }
                 else {
                     double d = Double.parseDouble(operand1) - Double.parseDouble(operand2);
-                    DecimalFormat tenDecimalForm = new DecimalFormat("0.0###########");
                     result = tenDecimalForm.format(d);
                 } break;
 
@@ -48,7 +49,6 @@ public class Calculator {
                 }
                 else {
                     double d = Double.parseDouble(operand1) * Double.parseDouble(operand2);
-                    DecimalFormat tenDecimalForm = new DecimalFormat("0.0###########");
                     result = tenDecimalForm.format(d);
                 } break;
 
@@ -58,7 +58,6 @@ public class Calculator {
                 }
                 else {
                     double d = Double.parseDouble(operand1) / Double.parseDouble(operand2);
-                    DecimalFormat tenDecimalForm = new DecimalFormat("0.0###########");
                     result = tenDecimalForm.format(d);
                 } break;
         }
