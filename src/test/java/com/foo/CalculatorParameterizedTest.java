@@ -35,6 +35,9 @@ public class CalculatorParameterizedTest {
                 new Object[]{"ADD", "-1", "2", "1"},
                 new Object[]{"ADD", "-5", "-2", "-7"},
                 new Object[]{"ADD", "", "", "Not enough operands."},
+                new Object[]{"SUBTRACT", "2", "1", "1"},
+                new Object[]{"SUBTRACT", "5", "5", "0"},
+                new Object[]{"SUBTRACT", "-3", "-2", "-1"},
                 //new Object[]{"ADD", "1000000000", "2000000000","3000000000"},
                 //Decimal tests
                 new Object[]{"ADD", "0.0", "0.0", "0.0"},
@@ -42,6 +45,8 @@ public class CalculatorParameterizedTest {
                 new Object[]{"ADD", "5.1", "10.2", "15.3"},
                 new Object[]{"ADD", "-5.0", "5.0", "0.0"},
                 new Object[]{"ADD", "0.00000000001", "0.00000000001", "0.00000000002"},
+                new Object[]{"SUBTRACT", "0.00000004", "0.00000002", "0.00000002"},
+                new Object[]{"SUBTRACT", "-1.0", "3.5", "-4.5"},
                 //Mixed operands tests
                 new Object[]{"ADD", "10", "10.0", "20.0"},
                 new Object[]{"ADD", "-10.0","5","-5.0"}
