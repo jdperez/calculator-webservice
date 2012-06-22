@@ -53,7 +53,7 @@ public class CalculatorParameterizedTest {
                 new Object[]{"SUBTRACT", "-1.0", "3.5", "-4.5"},
                 new Object[]{"MULTIPLY", "5.0", "3.0", "15.0"},
                 new Object[]{"MULTIPLY", "5.3", "1.6", "8.48"},
-                //new Object[]{"DIVIDE", "0.0", "0.0", "0.0"},
+                new Object[]{"DIVIDE", "0", "0", "ERROR, divide by zero"},
                 new Object[]{"DIVIDE", "6", "3.0", "2.0"},
                 //Mixed operands tests
                 new Object[]{"ADD", "10", "10.0", "20.0"},

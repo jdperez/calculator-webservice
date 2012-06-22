@@ -17,6 +17,9 @@ public class Calculator {
         if (operand1.equals("") || operand2.equals("")) {
             return "Not enough operands.";
         }
+        else if((operand1.equals("0") || operand2.equals("0")) && (operation.equalsIgnoreCase("DIVIDE"))) {
+            return "ERROR, divide by zero";
+        }
 
         switch(operation) {
             case ("ADD"):
