@@ -13,17 +13,59 @@ public class Calculator {
 
     public String calculate(String operation, String operand1, String operand2) {
        // int test = maxValueCheck(operand1,operand2);
+        String result = new String();
         if (operand1.equals("") || operand2.equals("")) {
             return "Not enough operands.";
         }
-        if (isInteger(operand1) && isInteger(operand2)) {
-            return String.valueOf(Integer.parseInt(operand1) + Integer.parseInt(operand2));
-        } else {
-            double d = Double.parseDouble(operand1) + Double.parseDouble(operand2);
-            DecimalFormat tenDecimalForm = new DecimalFormat("0.0###########");
-            return tenDecimalForm.format(d);
+        else if((operand1.equals("0") || operand2.equals("0")) && (operation.equalsIgnoreCase("DIVIDE"))) {
+            return "ERROR, divide by zero";
         }
+
+        switch(operation) {
+            case ("ADD"):
+                if (isInteger(operand1) && isInteger(operand2)) {
+                    result = String.valueOf(Integer.parseInt(operand1) + Integer.parseInt(operand2));
+                }
+                else {
+                    double d = Double.parseDouble(operand1) + Double.parseDouble(operand2);
+                    DecimalFormat tenDecimalForm = new DecimalFormat("0.0###########");
+                    result = tenDecimalForm.format(d);
+                } break;
+
+            case ("SUBTRACT"):
+                if (isInteger(operand1) && isInteger(operand2)) {
+                    result = String.valueOf(Integer.parseInt(operand1) - Integer.parseInt(operand2));
+                }
+                else {
+                    double d = Double.parseDouble(operand1) - Double.parseDouble(operand2);
+                    DecimalFormat tenDecimalForm = new DecimalFormat("0.0###########");
+                    result = tenDecimalForm.format(d);
+                } break;
+
+            case ("MULTIPLY"):
+                if (isInteger(operand1) && isInteger(operand2)) {
+                    result = String.valueOf(Integer.parseInt(operand1) * Integer.parseInt(operand2));
+                }
+                else {
+                    double d = Double.parseDouble(operand1) * Double.parseDouble(operand2);
+                    DecimalFormat tenDecimalForm = new DecimalFormat("0.0###########");
+                    result = tenDecimalForm.format(d);
+                } break;
+
+            case ("DIVIDE"):
+                if (isInteger(operand1) && isInteger(operand2)) {
+                    result = String.valueOf(Integer.parseInt(operand1) / Integer.parseInt(operand2));
+                }
+                else {
+                    double d = Double.parseDouble(operand1) / Double.parseDouble(operand2);
+                    DecimalFormat tenDecimalForm = new DecimalFormat("0.0###########");
+                    result = tenDecimalForm.format(d);
+                } break;
+        }
+        return result;
     }
+
+
 
     private static boolean isInteger(String string) {
         try {
