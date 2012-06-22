@@ -38,6 +38,26 @@ public class Calculator {
                     DecimalFormat tenDecimalForm = new DecimalFormat("0.0###########");
                     result = tenDecimalForm.format(d);
                 } break;
+
+            case ("MULTIPLY"):
+                if (isInteger(operand1) && isInteger(operand2)) {
+                    result = String.valueOf(Integer.parseInt(operand1) * Integer.parseInt(operand2));
+                }
+                else {
+                    double d = Double.parseDouble(operand1) * Double.parseDouble(operand2);
+                    DecimalFormat tenDecimalForm = new DecimalFormat("0.0###########");
+                    result = tenDecimalForm.format(d);
+                } break;
+
+            case ("DIVIDE"):
+                if (isInteger(operand1) && isInteger(operand2)) {
+                    result = String.valueOf(Integer.parseInt(operand1) / Integer.parseInt(operand2));
+                }
+                else {
+                    double d = Double.parseDouble(operand1) / Double.parseDouble(operand2);
+                    DecimalFormat tenDecimalForm = new DecimalFormat("0.0###########");
+                    result = tenDecimalForm.format(d);
+                } break;
         }
         return result;
     }
