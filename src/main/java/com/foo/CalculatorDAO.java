@@ -94,5 +94,6 @@ public class CalculatorDAO {
         } catch (SQLException ex) {
             System.err.println("SQLException: " + ex.getMessage());
         }
+
     }
 }
