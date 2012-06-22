@@ -18,8 +18,6 @@ public class DatabaseFooTest {
 
     @Before
     public void setUp(){
-        //databaseFoo.startDatabaseFooServer();
-        //databaseFoo.getConnection();
         databaseFoo.createTable();
     }
 
@@ -31,6 +29,4 @@ public class DatabaseFooTest {
         assertThat(loadedOutputs, equalTo(databaseInputs));
 
     }
-
-
 }

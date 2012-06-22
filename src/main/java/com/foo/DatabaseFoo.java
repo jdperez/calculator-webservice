@@ -23,9 +23,6 @@ public class DatabaseFoo {
             while(resultSet.next()){
                 System.out.println(resultSet.getString("Name"));
             }
-
-
-
         }
         finally {
             //server.stop();
@@ -37,7 +34,6 @@ public class DatabaseFoo {
         Connection connection = DriverManager.getConnection("jdbc:h2:mem:Foo;DB_CLOSE_DELAY=-1", "sa", "");
         return connection;
     }
-
 
     public int save(String[] databaseInputs) {
         insertCount++;
@@ -70,7 +66,6 @@ public class DatabaseFoo {
         } catch (SQLException e){
             System.err.println("SQLException: " + e.getMessage());
         }
-
         return new String[0];  //To change body of created methods use File | Settings | File Templates.
     }
 
@@ -83,7 +78,5 @@ public class DatabaseFoo {
         } catch (SQLException ex) {
             System.err.println("SQLException: " + ex.getMessage());
         }
-        //To change body of created methods use File | Settings | File Templates.
     }
-
 }
