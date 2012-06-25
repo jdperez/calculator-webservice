@@ -11,24 +11,25 @@ import java.sql.*;
  * To change this template use File | Settings | File Templates.
  */
 public class CalculatorDAO {
-    private int insertCount = 0;
     private String typeOfDAO;
+    private String username;
+    private String password;
 
-    public CalculatorDAO(String typeOfDAO) {
+    public CalculatorDAO(String typeOfDAO, String username, String password) {
         this.typeOfDAO = typeOfDAO;
+        this.username = username;
+        this.password = password;
     }
 
-    public CalculatorDAO() {
-        this("jdbc:h2:mem:Foo;DB_CLOSE_DELAY=-1");
+    public CalculatorDAO(String username, String password) {
+        this.username = username;
+        this.password = password;
+        typeOfDAO =  "jdbc:h2:mem:Foo;DB_CLOSE_DELAY=-1";
     }
 
-    public Connection getConnection() throws SQLException{
-        Connection connection = DriverManager.getConnection(typeOfDAO, "sa", "");
+    public Connection getConnection() throws SQLException {
+        Connection connection = DriverManager.getConnection(typeOfDAO, username, password);
         return connection;
-    }
-
-    public void closeConnection(Connection connection) throws SQLException {
-        connection.close();
     }
 
     public int getCurrentMaxKey() {
@@ -39,7 +40,6 @@ public class CalculatorDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()) {
                 int currentKey = resultSet.getInt(1);
-                //System.out.println(currentKey);
                 if (currentKey > maxKey) maxKey = currentKey;
             }
 
@@ -63,7 +63,6 @@ public class CalculatorDAO {
         } catch (SQLException e) {
             System.err.println("SQLException: " + e.getMessage());
         }
-        System.out.println("current key # is "+insertKey);
         return insertKey;
     }
 
@@ -95,5 +94,13 @@ public class CalculatorDAO {
             System.err.println("SQLException: " + ex.getMessage());
         }
 
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }
