@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.Math;
+import java.sql.SQLException;
 import java.util.Enumeration;
 
 /**
@@ -23,22 +24,22 @@ public class MyServlet extends HttpServlet {
         String operator = req.getParameter("operator");
         String operand1 = req.getParameter("operand1");
         String operand2 = req.getParameter("operand2");
+        String result = calculator.calculate(operator, operand1, operand2);
 
         // Must set content type first
         resp.setContentType("text/html");
         PrintWriter out = resp.getWriter();
 
-
-
         out.println("<TITLE>Result</TITLE>");
         out.println("<H1>Result<H1>");
-        out.println(operand1 + "&nbsp" + operator + "&nbsp" + operand2 + " = " + calculator.calculate(operator, operand1, operand2));
+        out.print(operand1 + "&nbsp" + operator + "&nbsp" + operand2 + " = " + result);
         out.println("</br>");
-        out.println("<A HREF=\"/project1-1.0/foo\">Back</A>");
+        out.println("<A HREF=\"localhost:8080\">Back</A>");
 
-
-
-
+        String[] save = {operand1, operator, operand2, result};
+        CalculatorDAO History = new CalculatorDAO();
+        History.createTable();
+        History.save(save);
 
 
         //out.print(calculator.calculate(operator, operand1, operand2));

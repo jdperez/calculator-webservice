@@ -12,7 +12,7 @@ label {width:150px;float:left;}
 <body>
 <H2>Simple Calculator</H2>
 
-<form action="http://localhost:8080/project1-1.0/foo/" method="post">
+<form action="http://localhost:8080/foo/" method="post">
 <div class=”field_container”><label>First operand</label><input type=”text” name="operand1"></div>
 <div class=”field_container”><label>Second operand</label><input type="text" name="operand2"></div> <br />
 <input type="submit" name="operator" value="ADD">
