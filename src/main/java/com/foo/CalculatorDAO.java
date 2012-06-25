@@ -44,7 +44,7 @@ public class CalculatorDAO {
             }
 
         } catch (SQLException e) {
-            System.err.println("SQLException: " + e.getMessage());
+            System.out.print("SQLException: " + e.getMessage());
         }
         return maxKey;
     }
@@ -61,9 +61,9 @@ public class CalculatorDAO {
             }
             preparedStatement.execute();
         } catch (SQLException e) {
-            System.err.println("SQLException: " + e.getMessage());
+            System.out.print("SQLException: " + e.getMessage());
         }
-        System.out.println("current key # is "+insertKey);
+        System.out.print("current key # is "+insertKey);
         return insertKey;
     }
 
@@ -80,7 +80,7 @@ public class CalculatorDAO {
             }
             return resultData;
         } catch (SQLException e){
-            System.err.println("SQLException: " + e.getMessage());
+            System.out.print("SQLException: " + e.getMessage());
         }
         return new String[0];
     }
@@ -92,7 +92,7 @@ public class CalculatorDAO {
              Statement statement = connection.createStatement();
             statement.executeUpdate(createString);
         } catch (SQLException ex) {
-            System.err.println("SQLException: " + ex.getMessage());
+             System.out.print("SQLException: " + ex.getMessage());
         }
 
     }

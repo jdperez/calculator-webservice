@@ -24,7 +24,7 @@ public class MyServlet extends HttpServlet {
         String operator = req.getParameter("operator");
         String operand1 = req.getParameter("operand1");
         String operand2 = req.getParameter("operand2");
-        String result = calculator.calculate(operator, operand1, operand2);
+        //String result = calculator.calculate(operator, operand1, operand2);
 
         // Must set content type first
         resp.setContentType("text/html");
