@@ -1,6 +1,9 @@
 package com.foo;
 
 import org.h2.tools.Server;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.sql.*;
 
 /**
@@ -11,6 +14,7 @@ import java.sql.*;
  * To change this template use File | Settings | File Templates.
  */
 public class CalculatorDAO {
+    private static final Logger LOG = LoggerFactory.getLogger(CalculatorDAO.class);
     private String typeOfDAO;
     private String username;
     private String password;
@@ -46,7 +50,7 @@ public class CalculatorDAO {
             }
 
         } catch (SQLException e) {
-            System.out.print("SQLException: " + e.getMessage());
+            LOG.error("there was a problem accessing the database", e);
         }
         return maxKey;
     }
@@ -63,9 +67,9 @@ public class CalculatorDAO {
             }
             preparedStatement.execute();
         } catch (SQLException e) {
-            System.out.print("SQLException: " + e.getMessage());
+            LOG.error("there was a problem accessing the database", e);
         }
-        System.out.print("current key # is "+insertKey);
+        LOG.error("current key # is: ", insertKey);
         return insertKey;
     }
 
@@ -82,7 +86,7 @@ public class CalculatorDAO {
             }
             return resultData;
         } catch (SQLException e){
-            System.out.print("SQLException: " + e.getMessage());
+            LOG.error("there was a problem accessing the database", e);
         }
         return new String[0];
     }
@@ -94,7 +98,7 @@ public class CalculatorDAO {
              Statement statement = connection.createStatement();
             statement.executeUpdate(createString);
         } catch (SQLException ex) {
-             System.out.print("SQLException: " + ex.getMessage());
+             LOG.error("There was a problem accessing the database", ex);
         }
 
     }
