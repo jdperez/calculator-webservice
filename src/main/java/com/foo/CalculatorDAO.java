@@ -11,7 +11,6 @@ import java.sql.*;
  * To change this template use File | Settings | File Templates.
  */
 public class CalculatorDAO {
-    private int insertCount = 0;
     private String typeOfDAO;
 
     public CalculatorDAO(String typeOfDAO) {
@@ -40,7 +39,9 @@ public class CalculatorDAO {
             while(resultSet.next()) {
                 int currentKey = resultSet.getInt(1);
                 //System.out.println(currentKey);
-                if (currentKey > maxKey) maxKey = currentKey;
+                if (currentKey > maxKey) {
+                    maxKey = currentKey;
+                }
             }
 
         } catch (SQLException e) {
