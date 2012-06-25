@@ -27,7 +27,21 @@ public class MyServlet extends HttpServlet {
         // Must set content type first
         resp.setContentType("text/html");
         PrintWriter out = resp.getWriter();
-        out.print(calculator.calculate(operator, operand1, operand2));
+
+
+
+        out.println("<TITLE>Result</TITLE>");
+        out.println("<H1>Result<H1>");
+        out.println(operand1 + "&nbsp" + operator + "&nbsp" + operand2 + " = " + calculator.calculate(operator, operand1, operand2));
+        out.println("</br>");
+        out.println("<A HREF=\"/project1-1.0/foo\">Back</A>");
+
+
+
+
+
+
+        //out.print(calculator.calculate(operator, operand1, operand2));
     }
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
