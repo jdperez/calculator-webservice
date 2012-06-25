@@ -8,6 +8,7 @@
     <artifactId>project1</artifactId>
     <version>1.0</version>
     <packaging>war</packaging>
+    <name>Calculator Project</name>
     <build>
         <plugins>
             <plugin>
