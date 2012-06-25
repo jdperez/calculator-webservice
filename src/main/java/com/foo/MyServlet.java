@@ -30,7 +30,7 @@ public class MyServlet extends HttpServlet {
         resp.setContentType("text/html");
         PrintWriter out = resp.getWriter();
 
-        out.println("<TITLE>Result</TITLE>");
+       /* out.println("<TITLE>Result</TITLE>");
         out.println("<H1>Result<H1>");
         out.print(operand1 + "&nbsp" + operator + "&nbsp" + operand2 + " = " + result);
         out.println("</br>");
@@ -40,9 +40,9 @@ public class MyServlet extends HttpServlet {
         CalculatorDAO History = new CalculatorDAO();
         History.createTable();
         History.save(save);
+       */
 
-
-        //out.print(calculator.calculate(operator, operand1, operand2));
+        out.print(calculator.calculate(operator, operand1, operand2));
     }
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
