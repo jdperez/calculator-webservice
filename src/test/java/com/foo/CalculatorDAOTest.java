@@ -17,11 +17,20 @@ import static org.junit.Assert.assertThat;
  * To change this template use File | Settings | File Templates.
  */
 public class CalculatorDAOTest {
-    CalculatorDAO databaseFoo = new CalculatorDAO();
+    CalculatorDAO databaseFoo = new CalculatorDAO("sa","sa");
 
     @Before
     public void setUp() {
         databaseFoo.createTable();
+    }
+
+    @Test
+    public void confirmUsernameAndPassword(){
+        String[] userInfo = new String[2];
+        userInfo[0] = databaseFoo.getUsername();
+        userInfo[1] = databaseFoo.getPassword();
+        String[] actualInfo = {"sa","sa"};
+        assertThat(userInfo,equalTo(actualInfo));
     }
 
     @Test
