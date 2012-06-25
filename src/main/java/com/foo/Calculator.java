@@ -14,9 +14,9 @@ public class Calculator {
     public String calculate(String operation, String operand1, String operand2) {
         // int test = maxValueCheck(operand1,operand2);
         String result = new String();
-        if (operand1.equals("") || operand2.equals("")) {
+        if ("".equals(operand1) || "".equals(operand2)) {
             return "Not enough operands.";
-        } else if ((operand1.equals("0") || operand2.equals("0")) && (operation.equalsIgnoreCase("DIVIDE"))) {
+        } else if (("0".equals(operand1) || "0".equals(operand2)) && ("DIVIDE".equalsIgnoreCase(operation))) {
             return "ERROR, divide by zero";
         }
 
@@ -24,7 +24,7 @@ public class Calculator {
         DecimalFormat tenDecimalForm = new DecimalFormat("0.0###########");
 
 
-        if (operation.equals("ADD")) {
+        if ("ADD".equals(operation)) {
             if (isInteger(operand1) && isInteger(operand2)) {
                 result = String.valueOf(Integer.parseInt(operand1) + Integer.parseInt(operand2));
             } else {
@@ -32,7 +32,7 @@ public class Calculator {
                 result = tenDecimalForm.format(d);
             }
 
-        } else if (operation.equals("SUBTRACT")) {
+        } else if ("SUBTRACT".equals(operation)) {
             if (isInteger(operand1) && isInteger(operand2)) {
                 result = String.valueOf(Integer.parseInt(operand1) - Integer.parseInt(operand2));
             } else {
@@ -40,7 +40,7 @@ public class Calculator {
                 result = tenDecimalForm.format(d);
             }
 
-        } else if (operation.equals("MULTIPLY")) {
+        } else if ("MULTIPLY".equals(operation)) {
             if (isInteger(operand1) && isInteger(operand2)) {
                 result = String.valueOf(Integer.parseInt(operand1) * Integer.parseInt(operand2));
             } else {
@@ -48,7 +48,7 @@ public class Calculator {
                 result = tenDecimalForm.format(d);
             }
 
-        } else if (operation.equals("DIVIDE")) {
+        } else if ("DIVIDE".equals(operation)) {
             if (isInteger(operand1) && isInteger(operand2)) {
                 result = String.valueOf(Integer.parseInt(operand1) / Integer.parseInt(operand2));
             } else {
