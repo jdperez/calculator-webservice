@@ -25,12 +25,37 @@ public class CalculatorDAOTest {
     }
 
     @Test
-    public void confirmUsernameAndPassword(){
+    public void confirmUsernameAndPassword() {
         String[] userInfo = new String[2];
         userInfo[0] = databaseFoo.getUsername();
         userInfo[1] = databaseFoo.getPassword();
         String[] actualInfo = {"sa","sa"};
         assertThat(userInfo,equalTo(actualInfo));
+    }
+
+    @Test
+    public void emptyPasswordThrowsException() {
+        expectedException.expect(IllegalArgumentException.class);
+        CalculatorDAO databaseFoo = new CalculatorDAO("sa","");
+    }
+
+    @Test
+    public void emptyUsernameThrowsException() {
+        expectedException.expect(IllegalArgumentException.class);
+        new CalculatorDAO("","sa");
+    }
+
+    @Test
+    public void emptyUsernamePasswordThrowsException() {
+        expectedException.expect(IllegalArgumentException.class);
+        new CalculatorDAO("","");
+    }
+
+    @Test
+    public void emptyStringThrowsExceptionInSave() {
+        expectedException.expect(IllegalArgumentException.class);
+        String[] databaseInputs = {"","","",""};
+        int key = databaseFoo.save(databaseInputs);
     }
 
     @Test
@@ -70,6 +95,4 @@ public class CalculatorDAOTest {
             assertThat(loadedOutput,equalTo(databaseInput));
         }
     }
-
-
 }
