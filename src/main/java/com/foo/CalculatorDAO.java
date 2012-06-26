@@ -64,25 +64,34 @@ public class CalculatorDAO {
             Connection connection = getConnection();
             preparedStatement = connection.prepareStatement("SELECT key FROM CalculatorDatabase ");
             resultSet = preparedStatement.executeQuery();
-            while(resultSet.next()) {
-                int currentKey = resultSet.getInt(1);
-                if (currentKey > maxKey) {
-                    maxKey = currentKey;
-                }
-            }
+            maxKey = findHighestKey(maxKey, resultSet);
 
         } catch (SQLException e) {
             LOG.error("there was a problem accessing the database", e);
         }
         finally {
-            try{
-            preparedStatement.close();
-            resultSet.close();
-            } catch (SQLException ex) {
-                LOG.error("there was a problem closing the connection", ex);
+            closeStuffSafely(preparedStatement, resultSet);
+        }
+        return maxKey;
+    }
+
+    private int findHighestKey(int maxKey, ResultSet resultSet) throws SQLException {
+        while(resultSet.next()) {
+            int currentKey = resultSet.getInt(1);
+            if (currentKey > maxKey) {
+                maxKey = currentKey;
             }
         }
         return maxKey;
+    }
+
+    private void closeStuffSafely(PreparedStatement preparedStatement, ResultSet resultSet) {
+        try{
+        preparedStatement.close();
+        resultSet.close();
+        } catch (SQLException ex) {
+            LOG.error("there was a problem closing the connection", ex);
+        }
     }
 
     public int save(String[] databaseInputs) {
@@ -93,27 +102,33 @@ public class CalculatorDAO {
             connection = getConnection();
             preparedStatement = connection.prepareStatement("INSERT INTO CalculatorDatabase VALUES (?,?,?,?,?)");
 
-            preparedStatement.setInt(1,insertKey);
-            for (int i = 0; i < databaseInputs.length; i++) {
-                if (databaseInputs[i] == null || databaseInputs[i].trim().isEmpty()) {
-                    throw new IllegalArgumentException("Trying to save empty value into database.");
-                }
-                preparedStatement.setString(i+2,databaseInputs[i]);
-            }
-            preparedStatement.execute();
+            runStatements(databaseInputs, insertKey, preparedStatement);
+
         } catch (SQLException e) {
             LOG.error("there was a problem accessing the database", e);
         }
         finally {
-            try{
-                preparedStatement.close();
-                connection.close();
-            } catch (SQLException ex) {
-                LOG.error("there was a problem closing the connection", ex);
-            }
+            closeStuffSafely(preparedStatement, connection);
         }
         LOG.error("current key # is: ", insertKey);
         return insertKey;
+    }
+
+    private void runStatements(String[] databaseInputs, int insertKey, PreparedStatement preparedStatement) throws SQLException {
+        preparedStatement.setInt(1,insertKey);
+        for (int i = 0; i < databaseInputs.length; i++) {
+            preparedStatement.setString(i+2,databaseInputs[i]);
+        }
+        preparedStatement.execute();
+    }
+
+    private void closeStuffSafely(PreparedStatement preparedStatement, Connection connection) {
+        try{
+            preparedStatement.close();
+            connection.close();
+        } catch (SQLException ex) {
+            LOG.error("there was a problem closing the connection", ex);
+        }
     }
 
     public String[] load(int key) {
@@ -125,12 +140,8 @@ public class CalculatorDAO {
             connection = getConnection();
             preparedStatement = connection.prepareStatement("SELECT * FROM CalculatorDatabase Where key=?");
             preparedStatement.setInt(1,key);
-            resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            for (int i = 0; i < resultData.length; i++) {
-                resultData[i] = resultSet.getString(i + 2);
-            }
-            return resultData;
+            resultSet = preparedStatementIterate(preparedStatement, resultSet);
+            return runAndReturnData(resultData, resultSet);
         } catch (SQLException e){
             LOG.error("there was a problem accessing the database", e);
         }
@@ -146,6 +157,19 @@ public class CalculatorDAO {
         return new String[0];
     }
 
+    private ResultSet preparedStatementIterate(PreparedStatement preparedStatement, ResultSet resultSet) throws SQLException {
+        resultSet = preparedStatement.executeQuery();
+        resultSet.next();
+        return resultSet;
+    }
+
+    private String[] runAndReturnData(String[] resultData, ResultSet resultSet) throws SQLException {
+        for (int i = 0; i < resultData.length; i++) {
+            resultData[i] = resultSet.getString(i + 2);
+        }
+        return resultData;
+    }
+
     public void createTable() {
         Connection connection = null;
         PreparedStatement statement = null;
@@ -153,18 +177,24 @@ public class CalculatorDAO {
             connection = getConnection();
             statement = connection.prepareStatement("CREATE TABLE IF NOT EXISTS CalculatorDatabase (key INTEGER, Operator VARCHAR(30), Operand1 INTEGER, Operand2 INTEGER, date VARCHAR(30))");
             statement.execute();
+
         } catch (SQLException ex) {
              LOG.error("There was a problem accessing the database", ex);
         }
 
          finally {
-             try{
-                 connection.close();
-                 statement.close();
-             } catch (SQLException ex) {
-                 LOG.error("there was a problem closing the connection", ex);
-             }
+             closeQuietly(connection, statement);
          }
+    }
+
+    private void closeQuietly(Connection connection, Statement statement) {
+        try{
+            connection.close();
+            statement.close();
+            statement.close();
+        } catch (SQLException ex) {
+            LOG.error("there was a problem closing the connection", ex);
+        }
     }
 
     public String getUsername() {
