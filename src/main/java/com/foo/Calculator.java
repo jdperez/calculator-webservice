@@ -10,61 +10,6 @@ import java.text.DecimalFormat;
  * To change this template use File | Settings | File Templates.
  */
 public class Calculator {
-
-    public String calculate(String operation, String operand1, String operand2) {
-        // int test = maxValueCheck(operand1,operand2);
-        final String result;
-        if ("".equals(operand1) || "".equals(operand2)) {
-            return "Not enough operands.";
-        } else if (("0".equals(operand1) || "0".equals(operand2)) && ("DIVIDE".equalsIgnoreCase(operation))) {
-            return "ERROR, divide by zero";
-        }
-
-
-        DecimalFormat tenDecimalForm = new DecimalFormat("0.0###########");
-
-
-        return identifyAndPerformOperation(operation, operand1, operand2, tenDecimalForm);
-    }
-
-    private String identifyAndPerformOperation(String operation, String operand1, String operand2, DecimalFormat tenDecimalForm) {
-        String result;
-        if ("ADD".equals(operation)) {
-            if (isInteger(operand1) && isInteger(operand2)) {
-                result = String.valueOf(Integer.parseInt(operand1) + Integer.parseInt(operand2));
-            } else {
-                double d = Double.parseDouble(operand1) + Double.parseDouble(operand2);
-                result = tenDecimalForm.format(d);
-            }
-
-        } else if ("SUBTRACT".equals(operation)) {
-            if (isInteger(operand1) && isInteger(operand2)) {
-                result = String.valueOf(Integer.parseInt(operand1) - Integer.parseInt(operand2));
-            } else {
-                double d = Double.parseDouble(operand1) - Double.parseDouble(operand2);
-                result = tenDecimalForm.format(d);
-            }
-
-        } else if ("MULTIPLY".equals(operation)) {
-            if (isInteger(operand1) && isInteger(operand2)) {
-                result = String.valueOf(Integer.parseInt(operand1) * Integer.parseInt(operand2));
-            } else {
-                double d = Double.parseDouble(operand1) * Double.parseDouble(operand2);
-                result = tenDecimalForm.format(d);
-            }
-
-        } else {
-            if (isInteger(operand1) && isInteger(operand2)) {
-                result = String.valueOf(Integer.parseInt(operand1) / Integer.parseInt(operand2));
-            } else {
-                double d = Double.parseDouble(operand1) / Double.parseDouble(operand2);
-                result = tenDecimalForm.format(d);
-            }
-        }
-        return result;
-    }
-
-
     private static boolean isInteger(String string) {
         try {
             Integer.valueOf(string);
@@ -72,5 +17,30 @@ public class Calculator {
         } catch (NumberFormatException nfe) {
             return false;
         }
+    }
+
+    public String enumCalculate(String operation, String operand1, String operand2) {
+        if ("".equals(operand1) || "".equals(operand2)) {
+            return "Not enough operands.";
+        } else if (("0".equals(operand1) || "0".equals(operand2)) && ("DIVIDE".equalsIgnoreCase(operation))) {
+            return "ERROR, divide by zero";
+        }
+        return findEnumOperator(operation, operand1, operand2);
+    }
+
+    public String findEnumOperator(String operation,String operand1, String operand2) {
+        String result;
+        if ((isInteger(operand1) && isInteger(operand2))) {
+            int intOperand1 = Integer.parseInt(operand1);
+            int intOperand2 = Integer.parseInt(operand2);
+            result = String.valueOf(Operations.valueOf(operation).calculate(intOperand1,intOperand2));
+        }  else {
+            DecimalFormat tenDecimalForm = new DecimalFormat("0.0###########");
+            double doubleOperand1 = Double.parseDouble(operand1);
+            double doubleOperand2 = Double.parseDouble(operand2);
+            double calculateDouble = Operations.valueOf(operation).calculate(doubleOperand1,doubleOperand2);
+            result = tenDecimalForm.format(calculateDouble);
+        }
+        return result;
     }
 }
