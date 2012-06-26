@@ -1,13 +1,17 @@
 package com.foo;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,7 +21,9 @@ import static org.junit.Assert.assertThat;
  * To change this template use File | Settings | File Templates.
  */
 public class CalculatorDAOTest {
-    CalculatorDAO databaseFoo = new CalculatorDAO("sa","sa");
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
+    CalculatorDAO databaseFoo = new CalculatorDAO();
 
     @Before
     public void setUp() {
