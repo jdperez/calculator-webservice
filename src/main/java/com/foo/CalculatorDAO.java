@@ -144,7 +144,7 @@ public class CalculatorDAO {
             connection = getConnection();
             preparedStatement = connection.prepareStatement("SELECT * FROM CalculatorDatabase Where key=?");
             preparedStatement.setInt(1,key);
-            resultSet = preparedStatementIterate(preparedStatement, resultSet);
+            resultSet = preparedStatementIterate(preparedStatement);
             return runAndReturnData(resultData, resultSet);
         } catch (SQLException e){
             LOG.error("there was a problem accessing the database", e);
@@ -161,8 +161,8 @@ public class CalculatorDAO {
         return new String[0];
     }
 
-    private ResultSet preparedStatementIterate(PreparedStatement preparedStatement, ResultSet resultSet) throws SQLException {
-        resultSet = preparedStatement.executeQuery();
+    private ResultSet preparedStatementIterate(PreparedStatement preparedStatement) throws SQLException {
+        ResultSet resultSet = preparedStatement.executeQuery();
         resultSet.next();
         return resultSet;
     }
