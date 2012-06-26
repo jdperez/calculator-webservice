@@ -33,8 +33,7 @@ public class CalculatorDAOTest {
     @Test
     public void confirmUsernameAndPassword() {
         String[] userInfo = new String[2];
-        userInfo[0] = databaseFoo.getUsername();
-        userInfo[1] = databaseFoo.getPassword();
+        userInfo = databaseFoo.getUsernameAndPassword();
         String[] actualInfo = {"sa","sa"};
         assertThat(userInfo,equalTo(actualInfo));
     }

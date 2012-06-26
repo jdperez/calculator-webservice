@@ -28,7 +28,7 @@ public class Calculator {
         return findEnumOperator(operation, operand1, operand2);
     }
 
-    public String findEnumOperator(String operation,String operand1, String operand2) {
+    private String findEnumOperator(String operation,String operand1, String operand2) {
         String result;
         if ((isInteger(operand1) && isInteger(operand2))) {
             int intOperand1 = Integer.parseInt(operand1);
