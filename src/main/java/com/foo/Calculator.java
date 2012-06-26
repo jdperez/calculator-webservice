@@ -13,7 +13,7 @@ public class Calculator {
 
     public String calculate(String operation, String operand1, String operand2) {
         // int test = maxValueCheck(operand1,operand2);
-        String result = new String();
+        final String result;
         if ("".equals(operand1) || "".equals(operand2)) {
             return "Not enough operands.";
         } else if (("0".equals(operand1) || "0".equals(operand2)) && ("DIVIDE".equalsIgnoreCase(operation))) {
@@ -24,6 +24,11 @@ public class Calculator {
         DecimalFormat tenDecimalForm = new DecimalFormat("0.0###########");
 
 
+        return identifyAndPerformOperation(operation, operand1, operand2, tenDecimalForm);
+    }
+
+    private String identifyAndPerformOperation(String operation, String operand1, String operand2, DecimalFormat tenDecimalForm) {
+        String result;
         if ("ADD".equals(operation)) {
             if (isInteger(operand1) && isInteger(operand2)) {
                 result = String.valueOf(Integer.parseInt(operand1) + Integer.parseInt(operand2));
