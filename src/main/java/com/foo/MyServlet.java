@@ -42,7 +42,7 @@ public class MyServlet extends HttpServlet {
         History.save(save);
        */
 
-        out.print(calculator.calculate(operator, operand1, operand2));
+        out.print(calculator.enumCalculate(operator, operand1, operand2));
     }
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
