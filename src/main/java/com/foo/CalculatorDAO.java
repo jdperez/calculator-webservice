@@ -23,10 +23,6 @@ public class CalculatorDAO {
         this("jdbc:h2:mem:Foo;DB_CLOSE_DELAY=-1","sa","sa");
     }
 
-    public CalculatorDAO(String typeOfDAO) {
-        this(typeOfDAO, "sa", "sa");
-    }
-
     public CalculatorDAO(String username, String password) {
         if (username == null || username.trim().isEmpty()) {
             throw new IllegalArgumentException("Username is required");
