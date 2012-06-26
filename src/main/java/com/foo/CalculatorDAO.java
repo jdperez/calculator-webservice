@@ -140,7 +140,7 @@ public class CalculatorDAO {
         ResultSet resultSet = null;
         try {
             connection = getConnection();
-            preparedStatement = prepareTheStatement(key, preparedStatement, connection);
+            preparedStatement = prepareTheStatement(key, connection);
             resultSet = preparedStatementIterate(preparedStatement);
             return runAndReturnData(resultData, resultSet);
         } catch (SQLException e){
@@ -152,8 +152,8 @@ public class CalculatorDAO {
         return new String[0];
     }
 
-    private PreparedStatement prepareTheStatement(int key, PreparedStatement preparedStatement, Connection connection) throws SQLException {
-        preparedStatement = connection.prepareStatement("SELECT * FROM CalculatorDatabase Where key=?");
+    private PreparedStatement prepareTheStatement(int key, Connection connection) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM CalculatorDatabase Where key=?");
         preparedStatement.setInt(1,key);
         return preparedStatement;
     }
