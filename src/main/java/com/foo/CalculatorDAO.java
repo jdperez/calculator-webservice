@@ -117,6 +117,9 @@ public class CalculatorDAO {
     private void runStatements(String[] databaseInputs, int insertKey, PreparedStatement preparedStatement) throws SQLException {
         preparedStatement.setInt(1,insertKey);
         for (int i = 0; i < databaseInputs.length; i++) {
+            if (databaseInputs[i] == null || databaseInputs[i].trim().isEmpty()) {
+               throw new IllegalArgumentException("trying to pass empty string into save");
+            }
             preparedStatement.setString(i+2,databaseInputs[i]);
         }
         preparedStatement.execute();
