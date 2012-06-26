@@ -41,7 +41,6 @@ public class MyServletIT {
     }
 
 
-
 /** Mocking servlet container with ServletUnit
 
     @Test
