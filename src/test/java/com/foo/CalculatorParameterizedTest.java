@@ -36,7 +36,7 @@ public class CalculatorParameterizedTest {
                 new Object[]{"ADD", "-5", "-2", "-7"},
                 new Object[]{"ADD", "", "", "Not enough operands."},
                 new Object[]{"ADD", "5", "", "Not enough operands."},
-                new Object[]{"ADD", "", "3", "Not enough operands"},
+                new Object[]{"ADD", "", "3", "Not enough operands."},
                 new Object[]{"SUBTRACT", "2", "1", "1"},
                 new Object[]{"SUBTRACT", "5", "5", "0"},
                 new Object[]{"SUBTRACT", "-3", "-2", "-1"},
@@ -57,7 +57,7 @@ public class CalculatorParameterizedTest {
                 new Object[]{"MULTIPLY", "5.3", "1.6", "8.48"},
                 new Object[]{"DIVIDE", "0", "0", "ERROR, divide by zero"},
                 new Object[]{"DIVIDE", "3", "0", "ERROR, divide by zero"},
-                new Object[]{"DIVIDE", "3.0", "6", "2.0"},
+                new Object[]{"DIVIDE", "3.0", "6", "0.5"},
                 //Mixed operands tests
                 new Object[]{"ADD", "10", "10.0", "20.0"},
                 new Object[]{"ADD", "-10.0","5","-5.0"},
