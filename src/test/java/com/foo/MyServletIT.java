@@ -33,7 +33,7 @@ public class MyServletIT {
         nameValuePairList.add(new BasicNameValuePair("operand2", "2"));
         nameValuePairList.add(new BasicNameValuePair("operator", "ADD"));
         UrlEncodedFormEntity entity = new UrlEncodedFormEntity(nameValuePairList, "UTF-8");
-        HttpPost httpPost = new HttpPost("http://localhost:8080/foo");
+        HttpPost httpPost = new HttpPost("http://localhost:8888/foo");
         httpPost.setEntity(entity);
         HttpResponse response = httpClient.execute(httpPost);
         HttpEntity httpEntity = response.getEntity();
