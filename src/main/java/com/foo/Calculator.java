@@ -20,13 +20,25 @@ public class Calculator {
     }
 
     public String enumCalculate(String operation, String operand1, String operand2) {
-        if ("".equals(operand1) || "".equals(operand2)) {
-            return "Not enough operands.";
-        } else if (("0".equals(operand1) || "0".equals(operand2)) && ("DIVIDE".equalsIgnoreCase(operation))) {
-            return "ERROR, divide by zero";
-        }
+        if (isDividingByZero(operand1, operand2, operation) == false && isEnoughOperands(operand1, operand2) == true){
         return findEnumOperator(operation, operand1, operand2);
+        }
+        return "not enough operands or divide by zero";
     }
+
+   private static boolean isDividingByZero(String operand1, String operand2, String operation){
+      if (("0".equals(operand1) || "0".equals(operand2)) && ("DIVIDE".equalsIgnoreCase(operation))) {
+          return true;
+      }
+      else return false;
+   }
+
+   private static boolean isEnoughOperands(String operand1, String operand2){
+       if ("".equals(operand1) || "".equals(operand2)) {
+           return false;
+       }
+       else return true;
+   }
 
     public String findEnumOperator(String operation,String operand1, String operand2) {
         String result;
