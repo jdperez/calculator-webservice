@@ -20,15 +20,22 @@ public class Calculator {
     }
 
     public String enumCalculate(String operation, String operand1, String operand2) {
-        if ("".equals(operand1) || "".equals(operand2)) {
-            return "Not enough operands.";
-        } else if (("0".equals(operand1) || "0".equals(operand2)) && ("DIVIDE".equalsIgnoreCase(operation))) {
-            return "ERROR, divide by zero";
-        }
+        if (!isDividingByZero(operand1, operand2, operation) && isEnoughOperands(operand1, operand2)){
         return findEnumOperator(operation, operand1, operand2);
+        }
+        return "not enough operands or divide by zero";
     }
 
-    private String findEnumOperator(String operation,String operand1, String operand2) {
+
+   private static boolean isDividingByZero(String operand1, String operand2, String operation){
+       return ("0".equals(operand1) || "0".equals(operand2)) && ("DIVIDE".equalsIgnoreCase(operation));
+   }
+
+   private static boolean isEnoughOperands(String operand1, String operand2){
+       return !("".equals(operand1) || "".equals(operand2));
+   }
+
+    public String findEnumOperator(String operation,String operand1, String operand2) {
         String result;
         if ((isInteger(operand1) && isInteger(operand2))) {
             int intOperand1 = Integer.parseInt(operand1);

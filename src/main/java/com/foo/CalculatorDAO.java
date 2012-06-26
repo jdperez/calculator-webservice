@@ -145,7 +145,7 @@ public class CalculatorDAO {
             LOG.error("there was a problem accessing the database", e);
         }
         finally {
-            closeQuietly(connection,preparedStatement,resultSet);
+            closeQuietly(connection, preparedStatement, resultSet);
         }
         return new String[0];
     }
@@ -206,11 +206,7 @@ public class CalculatorDAO {
         }
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
+    public String[] getUsernameAndPassword() {
+        return new String[] {username,password};
     }
 }
