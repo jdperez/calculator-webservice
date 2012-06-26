@@ -56,7 +56,7 @@ public class CalculatorDAO {
         return connection;
     }
 
-    public int getCurrentMaxKey() {
+    private int getCurrentMaxKey() {
         int maxKey = 0;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
