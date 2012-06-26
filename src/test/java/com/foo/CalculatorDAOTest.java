@@ -31,14 +31,6 @@ public class CalculatorDAOTest {
     }
 
     @Test
-    public void confirmUsernameAndPassword() {
-        String[] userInfo = new String[2];
-        userInfo = databaseFoo.getUsernameAndPassword();
-        String[] actualInfo = {"sa","sa"};
-        assertThat(userInfo,equalTo(actualInfo));
-    }
-
-    @Test
     public void emptyPasswordThrowsException() {
         expectedException.expect(IllegalArgumentException.class);
         CalculatorDAO databaseFoo = new CalculatorDAO("sa","");
