@@ -81,10 +81,11 @@ public class CalculatorParameterizedTest {
         this.expectedResult = expectedResult;
     }
 
+
     @Test
-    public void additionSucceeds(){
+    public void enumOperationSucceeds(){
         Calculator calculator = new Calculator();
-        String calculateResult = calculator.calculate(operation,operand1,operand2);
-        assertThat(calculateResult,equalTo(expectedResult));
+        String calculateResult = calculator.enumCalculate(operation, operand1,operand2);
+        assertThat(calculateResult, equalTo(expectedResult));
     }
 }
