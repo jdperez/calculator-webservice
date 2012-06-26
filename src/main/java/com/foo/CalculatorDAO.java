@@ -64,9 +64,6 @@ public class CalculatorDAO {
         } catch (SQLException e) {
             LOG.error("there was a problem accessing the database", e);
         }
-        finally {
-            closeStuffSafely(preparedStatement, resultSet);
-        }
         return maxKey;
     }
 
@@ -81,14 +78,6 @@ public class CalculatorDAO {
         return maxKey;
     }
 
-    private void closeStuffSafely(PreparedStatement preparedStatement, ResultSet resultSet) {
-        try{
-        preparedStatement.close();
-        resultSet.close();
-        } catch (SQLException ex) {
-            LOG.error("there was a problem closing the connection safely", ex);
-        }
-    }
 
     public int save(String[] databaseInputs) {
         int insertKey = getCurrentMaxKey() + 1;
@@ -100,9 +89,6 @@ public class CalculatorDAO {
             runStatements(databaseInputs, insertKey, preparedStatement);
         } catch (SQLException e) {
             LOG.error("there was a problem accessing the database", e);
-        }
-        finally {
-            closeStuffSafely(preparedStatement, connection);
         }
         LOG.error("current key # is: ", insertKey);
         return insertKey;
@@ -119,14 +105,6 @@ public class CalculatorDAO {
         preparedStatement.execute();
     }
 
-    private void closeStuffSafely(PreparedStatement preparedStatement, Connection connection) {
-        try{
-            preparedStatement.close();
-            connection.close();
-        } catch (SQLException ex) {
-            LOG.error("there was a problem closing the connection properly", ex);
-        }
-    }
 
     public String[] load(int key) {
         PreparedStatement preparedStatement = null;
@@ -139,9 +117,6 @@ public class CalculatorDAO {
             return runAndReturnData(resultSet);
         } catch (SQLException e){
             LOG.error("there was a problem accessing the database", e);
-        }
-        finally {
-            closeQuietly(connection, preparedStatement, resultSet);
         }
         return new String[0];
     }
@@ -178,27 +153,6 @@ public class CalculatorDAO {
              LOG.error("There was a problem accessing the database!!!", ex);
         }
 
-         finally {
-             closeQuietly(connection, statement);
-         }
     }
 
-    private void closeQuietly(Connection connection, Statement statement) {
-        try{
-            statement.close();
-            connection.close();
-        } catch (SQLException ex) {
-            LOG.error("there was a problem closing the connection", ex);
-        }
-    }
-
-    private void closeQuietly(Connection connection, Statement statement, ResultSet resultSet) {
-        try {
-            statement.close();
-            resultSet.close();
-            connection.close();
-        } catch (SQLException ex) {
-            LOG.error("there was a problem closing the connection", ex);
-        }
-    }
 }
