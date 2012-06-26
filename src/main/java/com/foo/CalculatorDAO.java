@@ -51,7 +51,7 @@ public class CalculatorDAO {
         return DriverManager.getConnection(typeOfDAO, username, password);
     }
 
-    private int getCurrentMaxKey() {
+    public int getCurrentMaxKey() {
         int maxKey = 0;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
