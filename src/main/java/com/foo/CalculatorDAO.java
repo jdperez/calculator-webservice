@@ -102,9 +102,7 @@ public class CalculatorDAO {
         try {
             connection = getConnection();
             preparedStatement = connection.prepareStatement("INSERT INTO CalculatorDatabase VALUES (?,?,?,?,?)");
-
             runStatements(databaseInputs, insertKey, preparedStatement);
-
         } catch (SQLException e) {
             LOG.error("there was a problem accessing the database", e);
         }
@@ -150,13 +148,7 @@ public class CalculatorDAO {
             LOG.error("there was a problem accessing the database", e);
         }
         finally {
-            try{
-                preparedStatement.close();
-                connection.close();
-                resultSet.close();
-            } catch (SQLException ex) {
-                LOG.error("there was a problem closing the connection", ex);
-            }
+            closeQuietly(connection,preparedStatement,resultSet);
         }
         return new String[0];
     }
@@ -193,9 +185,18 @@ public class CalculatorDAO {
 
     private void closeQuietly(Connection connection, Statement statement) {
         try{
+            statement.close();
             connection.close();
+        } catch (SQLException ex) {
+            LOG.error("there was a problem closing the connection", ex);
+        }
+    }
+
+    private void closeQuietly(Connection connection, Statement statement, ResultSet resultSet) {
+        try {
             statement.close();
-            statement.close();
+            resultSet.close();
+            connection.close();
         } catch (SQLException ex) {
             LOG.error("there was a problem closing the connection", ex);
         }
