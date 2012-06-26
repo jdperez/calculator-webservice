@@ -201,8 +201,4 @@ public class CalculatorDAO {
             LOG.error("there was a problem closing the connection", ex);
         }
     }
-
-    public String[] getUsernameAndPassword() {
-        return new String[] {username,password};
-    }
 }
