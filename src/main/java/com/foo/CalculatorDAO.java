@@ -14,6 +14,7 @@ import java.sql.*;
  */
 public class CalculatorDAO {
     private static final Logger LOG = LoggerFactory.getLogger(CalculatorDAO.class);
+    public static final int RESULT_SIZE = 4;
     private String typeOfDAO;
     private String username;
     private String password;
@@ -132,7 +133,7 @@ public class CalculatorDAO {
     }
 
     public String[] load(int key) {
-        String[] resultData = new String[4];
+        String[] resultData = new String[RESULT_SIZE];
         PreparedStatement preparedStatement = null;
         Connection connection = null;
         ResultSet resultSet = null;
