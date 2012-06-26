@@ -148,12 +148,11 @@ public class CalculatorDAO {
 
     public void createTable() {
         Connection connection = null;
-        Statement statement = null;
-         try {
+        PreparedStatement statement = null;
+        try {
             connection = getConnection();
-             String createString = "CREATE TABLE IF NOT EXISTS CalculatorDatabase (key INTEGER, Operator VARCHAR(30), Operand1 INTEGER, Operand2 INTEGER, date VARCHAR(30))";
-             statement = connection.createStatement();
-            statement.executeUpdate(createString);
+            statement = connection.prepareStatement("CREATE TABLE IF NOT EXISTS CalculatorDatabase (key INTEGER, Operator VARCHAR(30), Operand1 INTEGER, Operand2 INTEGER, date VARCHAR(30))");
+            statement.execute();
         } catch (SQLException ex) {
              LOG.error("There was a problem accessing the database", ex);
         }
@@ -166,7 +165,6 @@ public class CalculatorDAO {
                  LOG.error("there was a problem closing the connection", ex);
              }
          }
-
     }
 
     public String getUsername() {
