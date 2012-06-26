@@ -52,8 +52,7 @@ public class CalculatorDAO {
     }
 
     private Connection getConnection() throws SQLException {
-        Connection connection = DriverManager.getConnection(typeOfDAO, username, password);
-        return connection;
+        return DriverManager.getConnection(typeOfDAO, username, password);
     }
 
     private int getCurrentMaxKey() {
@@ -91,7 +90,7 @@ public class CalculatorDAO {
         preparedStatement.close();
         resultSet.close();
         } catch (SQLException ex) {
-            LOG.error("there was a problem closing the connection", ex);
+            LOG.error("there was a problem closing the connection safely", ex);
         }
     }
 
@@ -129,7 +128,7 @@ public class CalculatorDAO {
             preparedStatement.close();
             connection.close();
         } catch (SQLException ex) {
-            LOG.error("there was a problem closing the connection", ex);
+            LOG.error("there was a problem closing the connection properly", ex);
         }
     }
 
@@ -180,7 +179,7 @@ public class CalculatorDAO {
             statement.execute();
 
         } catch (SQLException ex) {
-             LOG.error("There was a problem accessing the database", ex);
+             LOG.error("There was a problem accessing the database!!!", ex);
         }
 
          finally {

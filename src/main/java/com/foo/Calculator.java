@@ -13,7 +13,7 @@ public class Calculator {
 
     public String calculate(String operation, String operand1, String operand2) {
         // int test = maxValueCheck(operand1,operand2);
-        final String result;
+        //final String result;
         if ("".equals(operand1) || "".equals(operand2)) {
             return "Not enough operands.";
         } else if (("0".equals(operand1) || "0".equals(operand2)) && ("DIVIDE".equalsIgnoreCase(operation))) {
