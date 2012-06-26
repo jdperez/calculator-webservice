@@ -3,6 +3,7 @@ package com.foo;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -24,10 +25,10 @@ import static org.junit.Assert.assertThat;
  * To change this template use File | Settings | File Templates.
  */
 public class MyServletIT {
+    DefaultHttpClient httpClient = new DefaultHttpClient();
 
     @Test
-    public void successfulPost() throws Exception {
-        DefaultHttpClient httpClient = new DefaultHttpClient();
+    public void successfulPost() throws Exception{
         List<NameValuePair> nameValuePairList = new ArrayList<NameValuePair>();
         nameValuePairList.add(new BasicNameValuePair("operand1", "2"));
         nameValuePairList.add(new BasicNameValuePair("operand2", "2"));
@@ -38,8 +39,27 @@ public class MyServletIT {
         HttpResponse response = httpClient.execute(httpPost);
         HttpEntity httpEntity = response.getEntity();
         assertThat(EntityUtils.toString(httpEntity),equalTo("4"));
+        httpPost.releaseConnection();
     }
 
+    @Test
+    public void initializeDatabaseSuccessful() throws Exception {
+        List<NameValuePair> nameValuePairList = new ArrayList<NameValuePair>();
+        nameValuePairList.add(new BasicNameValuePair("operand1", "40"));
+        nameValuePairList.add(new BasicNameValuePair("operand2", "2"));
+        nameValuePairList.add(new BasicNameValuePair("operator", "ADD"));
+        HttpPost httpPost = new HttpPost("http://localhost:8888/foo");
+        UrlEncodedFormEntity entity = new UrlEncodedFormEntity(nameValuePairList, "UTF-8");
+        httpPost.setEntity(entity);
+        httpClient.execute(httpPost);
+        List<NameValuePair> historyNameValuePairList = new ArrayList<NameValuePair>();
+        nameValuePairList.add(new BasicNameValuePair("operation", "HISTORY"));
+        UrlEncodedFormEntity historyEntity = new UrlEncodedFormEntity(historyNameValuePairList, "UTF-8");
+        httpPost.setEntity(historyEntity);
+        HttpResponse httpResponse =  httpClient.execute(httpPost);
+        HttpEntity httpEntity = httpResponse.getEntity();
+        assertThat(EntityUtils.toString(httpEntity), equalTo("40 ADD 2"));
+    }
 
 /** Mocking servlet container with ServletUnit
 
