@@ -133,7 +133,6 @@ public class CalculatorDAO {
     }
 
     public String[] load(int key) {
-        String[] resultData = new String[RESULT_SIZE];
         PreparedStatement preparedStatement = null;
         Connection connection = null;
         ResultSet resultSet = null;
@@ -141,7 +140,7 @@ public class CalculatorDAO {
             connection = getConnection();
             preparedStatement = prepareTheStatement(key, connection);
             resultSet = preparedStatementIterate(preparedStatement);
-            return runAndReturnData(resultData, resultSet);
+            return runAndReturnData(resultSet);
         } catch (SQLException e){
             LOG.error("there was a problem accessing the database", e);
         }
@@ -163,7 +162,8 @@ public class CalculatorDAO {
         return resultSet;
     }
 
-    private String[] runAndReturnData(String[] resultData, ResultSet resultSet) throws SQLException {
+    private String[] runAndReturnData(ResultSet resultSet) throws SQLException {
+        String[] resultData = new String[RESULT_SIZE];
         for (int i = 0; i < resultData.length; i++) {
             resultData[i] = resultSet.getString(i + 2);
         }
