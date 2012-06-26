@@ -48,7 +48,7 @@ public class Calculator {
                 result = tenDecimalForm.format(d);
             }
 
-        } else if ("DIVIDE".equals(operation)) {
+        } else {
             if (isInteger(operand1) && isInteger(operand2)) {
                 result = String.valueOf(Integer.parseInt(operand1) / Integer.parseInt(operand2));
             } else {
