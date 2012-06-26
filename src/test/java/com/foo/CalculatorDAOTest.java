@@ -1,13 +1,17 @@
 package com.foo;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,7 +21,9 @@ import static org.junit.Assert.assertThat;
  * To change this template use File | Settings | File Templates.
  */
 public class CalculatorDAOTest {
-    CalculatorDAO databaseFoo = new CalculatorDAO("sa","sa");
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
+    CalculatorDAO databaseFoo = new CalculatorDAO();
 
     @Before
     public void setUp() {
@@ -25,12 +31,37 @@ public class CalculatorDAOTest {
     }
 
     @Test
-    public void confirmUsernameAndPassword(){
+    public void confirmUsernameAndPassword() {
         String[] userInfo = new String[2];
         userInfo[0] = databaseFoo.getUsername();
         userInfo[1] = databaseFoo.getPassword();
         String[] actualInfo = {"sa","sa"};
         assertThat(userInfo,equalTo(actualInfo));
+    }
+
+    @Test
+    public void emptyPasswordThrowsException() {
+        expectedException.expect(IllegalArgumentException.class);
+        CalculatorDAO databaseFoo = new CalculatorDAO("sa","");
+    }
+
+    @Test
+    public void emptyUsernameThrowsException() {
+        expectedException.expect(IllegalArgumentException.class);
+        new CalculatorDAO("","sa");
+    }
+
+    @Test
+    public void emptyUsernamePasswordThrowsException() {
+        expectedException.expect(IllegalArgumentException.class);
+        new CalculatorDAO("","");
+    }
+
+    @Test
+    public void emptyStringThrowsExceptionInSave() {
+        expectedException.expect(IllegalArgumentException.class);
+        String[] databaseInputs = {"","","",""};
+        int key = databaseFoo.save(databaseInputs);
     }
 
     @Test
@@ -70,6 +101,4 @@ public class CalculatorDAOTest {
             assertThat(loadedOutput,equalTo(databaseInput));
         }
     }
-
-
 }

@@ -19,19 +19,39 @@ public class CalculatorDAO {
     private String username;
     private String password;
 
+    public CalculatorDAO(){
+        this("jdbc:h2:mem:Foo;DB_CLOSE_DELAY=-1","sa","sa");
+    }
+
+    public CalculatorDAO(String typeOfDAO) {
+        this(typeOfDAO, "sa", "sa");
+    }
+
+    public CalculatorDAO(String username, String password) {
+        if (username == null || username.trim().isEmpty()) {
+            throw new IllegalArgumentException("Username is required");
+        }
+        if (password == null || password.trim().isEmpty()) {
+            throw new IllegalArgumentException("Password is required");
+        }
+        typeOfDAO =  "jdbc:h2:mem:Foo;DB_CLOSE_DELAY=-1";
+        this.username = username;
+        this.password = password;
+    }
+
     public CalculatorDAO(String typeOfDAO, String username, String password) {
+        if (username == null || username.trim().isEmpty()) {
+            throw new IllegalArgumentException("Username is required");
+        }
+        if (password == null || password.trim().isEmpty()) {
+            throw new IllegalArgumentException("Password is required");
+        }
         this.typeOfDAO = typeOfDAO;
         this.username = username;
         this.password = password;
     }
 
-    public CalculatorDAO(String username, String password) {
-        this.username = username;
-        this.password = password;
-        typeOfDAO =  "jdbc:h2:mem:Foo;DB_CLOSE_DELAY=-1";
-    }
-
-    public Connection getConnection() throws SQLException {
+    private Connection getConnection() throws SQLException {
         Connection connection = DriverManager.getConnection(typeOfDAO, username, password);
         return connection;
     }
@@ -83,6 +103,7 @@ public class CalculatorDAO {
             preparedStatement = connection.prepareStatement("INSERT INTO CalculatorDatabase VALUES (?,?,?,?,?)");
 
             runStatements(databaseInputs, insertKey, preparedStatement);
+
         } catch (SQLException e) {
             LOG.error("there was a problem accessing the database", e);
         }
