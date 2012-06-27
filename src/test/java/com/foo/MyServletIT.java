@@ -53,7 +53,6 @@ public class MyServletIT {
     }
  */
 
-
     private NameValuePair param(String key, String value) {
         return new BasicNameValuePair(key, value);
     }
@@ -77,6 +76,8 @@ public class MyServletIT {
         }
     }
 
+/** Mocking servlet container with ServletUnit
+>>>>>>> 5c8b11ee83fd548058c24b453857e0ad424cf4bb
 
 /** Mocking servlet container with ServletUnit
     @Test
