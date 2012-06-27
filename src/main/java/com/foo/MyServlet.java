@@ -16,34 +16,32 @@ import java.io.PrintWriter;
  */
 
 public class MyServlet extends HttpServlet {
+    Calculator calculator = new Calculator();
+
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Calculator calculator = new Calculator();
-        String operator = req.getParameter("operator");
-        String operand1 = req.getParameter("operand1");
-        String operand2 = req.getParameter("operand2");
-        //String result = calculator.calculate(operator, operand1, operand2);
-
-        // Must set content type first
-        resp.setContentType("text/html");
         PrintWriter out = resp.getWriter();
+        resp.setContentType("text/html");
+        String operator = req.getParameter("operator");
+        if (!operator.equals("HISTORY")) {
+            String operand1 = req.getParameter("operand1");
+            String operand2 = req.getParameter("operand2");
+            String result = calculate(operator,operand1,operand2);
+            out.print(result);
+        } else {
+            //getHistory(out);
+        }
 
-       /* out.println("<TITLE>Result</TITLE>");
-        out.println("<H1>Result<H1>");
-        out.print(operand1 + "&nbsp" + operator + "&nbsp" + operand2 + " = " + result);
-        out.println("</br>");
-        out.println("<A HREF=\"localhost:8080\">Back</A>");
-
-        String[] save = {operand1, operator, operand2, result};
-        CalculatorDAO History = new CalculatorDAO();
-        History.createTable();
-        History.save(save);
-       */
-
-        out.print(calculator.enumCalculate(operator, operand1, operand2));
     }
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("/WEB-INF/jsp/client_form.jsp").forward(req,resp);
     }
+
+    private String calculate(String operator, String operand1, String operand2) {
+        String result = calculator.enumCalculate(operator,operand1,operand2);
+        return result;
+    }
+
+
 }
 
