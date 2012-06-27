@@ -18,8 +18,10 @@ label {width:150px;float:left;}
 <div class=”field_container”><label>Second operand</label><input type="text" name="operand2"></div> <br />
 <input type="submit" name="operator" value="ADD">
 <input type="submit" name="operator" value="SUBTRACT">
-<input type="submit" name="operator"  value="MULTIPLY">
-<input type="submit" name="operator" value="DIVIDE">
+<input type="submit" name="operator" value="MULTIPLY">
+<input type="submit" name="operator" value="DIVIDE">  <br /> <br />
+<input type="submit" name="operator" value="HISTORY">
+
 </form>
 
 </body>
