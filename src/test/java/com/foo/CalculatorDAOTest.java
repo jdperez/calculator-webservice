@@ -57,7 +57,7 @@ public class CalculatorDAOTest {
 
     @Test
     public void successfulSave() {
-        String[] databaseInputs = {"ADD","1","2","3/6/2012"};
+        String[] databaseInputs = {"ADD","1","2"};
         int key = databaseFoo.save(databaseInputs);
         String[] loadedOutputs = databaseFoo.load(key);
         assertThat(loadedOutputs, equalTo(databaseInputs));
@@ -65,8 +65,8 @@ public class CalculatorDAOTest {
 
     @Test
     public void successfulDuplicateSaves(){
-        String[] databaseInputs1 = {"ADD","1","2","3/6/2012"};
-        String[] databaseInputs2 = {"ADD","1","2","3/6/2012"};
+        String[] databaseInputs1 = {"ADD","1","2"};
+        String[] databaseInputs2 = {"ADD","1","2"};
         databaseFoo.save(databaseInputs1);
         int key = databaseFoo.save(databaseInputs2);
         String[] loadedOutput = databaseFoo.load(key);
@@ -76,10 +76,10 @@ public class CalculatorDAOTest {
     @Test
     public void severalSuccessfulUniqueSaves() {
         ArrayList<String[]> inputStrings = new ArrayList<String[]>();
-        String[] databaseInputs1 = {"ADD","5","9","3/6/1954"};
-        String[] databaseInputs2 = {"ADD","3","4","4/7/1944"};
-        String[] databaseInputs3 = {"ADD","2","3","4/5/1895"};
-        String[] databaseInputs4 = {"ADD","1","2","12/7/1955"};
+        String[] databaseInputs1 = {"ADD","5","9"};
+        String[] databaseInputs2 = {"ADD","3","4"};
+        String[] databaseInputs3 = {"ADD","2","3"};
+        String[] databaseInputs4 = {"ADD","1","2"};
         inputStrings.add(databaseInputs1);
         inputStrings.add(databaseInputs2);
         inputStrings.add(databaseInputs3);
