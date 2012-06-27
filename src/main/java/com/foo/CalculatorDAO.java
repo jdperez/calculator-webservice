@@ -14,7 +14,7 @@ import java.sql.*;
  */
 public class CalculatorDAO {
     private static final Logger LOG = LoggerFactory.getLogger(CalculatorDAO.class);
-    public static final int RESULT_SIZE = 4;
+    public static final int RESULT_SIZE = 3;
     private String typeOfDAO;
     private String username;
     private String password;
@@ -85,7 +85,7 @@ public class CalculatorDAO {
         Connection connection = null;
         try {
             connection = getConnection();
-            preparedStatement = connection.prepareStatement("INSERT INTO CalculatorDatabase VALUES (?,?,?,?,?)");
+            preparedStatement = connection.prepareStatement("INSERT INTO CalculatorDatabase VALUES (?,?,?,?)");
             runStatements(databaseInputs, insertKey, preparedStatement);
         } catch (SQLException e) {
             LOG.error("there was a problem accessing the database", e);
@@ -146,11 +146,11 @@ public class CalculatorDAO {
         PreparedStatement statement = null;
         try {
             connection = getConnection();
-            statement = connection.prepareStatement("CREATE TABLE IF NOT EXISTS CalculatorDatabase (key INTEGER, Operator VARCHAR(30), Operand1 INTEGER, Operand2 INTEGER, date VARCHAR(30))");
+            statement = connection.prepareStatement("CREATE TABLE IF NOT EXISTS CalculatorDatabase (key INTEGER, Operator VARCHAR(30), Operand1 INTEGER, Operand2 INTEGER)");
             statement.execute();
 
         } catch (SQLException ex) {
-             LOG.error("There was a problem accessing the database!!!", ex);
+             LOG.error("There was a problem accessing the database.", ex);
         }
 
     }
