@@ -64,6 +64,7 @@ public class CalculatorDAO {
         } catch (SQLException e) {
             LOG.error("there was a problem accessing the database", e);
         }
+        //System.out.println(maxKey);
         return maxKey;
     }
 
@@ -150,7 +151,7 @@ public class CalculatorDAO {
             statement.execute();
 
         } catch (SQLException ex) {
-             LOG.error("There was a problem accessing the database.", ex);
+             LOG.error("There was a problem accessing the database", ex);
         }
 
     }
