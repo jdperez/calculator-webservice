@@ -18,14 +18,14 @@ import java.io.PrintWriter;
  */
 
 public class MyServlet extends HttpServlet {
-    Calculator calculator = new Calculator();
-    CalculatorDAO calculatorDAO = new CalculatorDAO();
+    private Calculator calculator = new Calculator();
+    private CalculatorDAO calculatorDAO = new CalculatorDAO();
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
         PrintWriter out = resp.getWriter();
         String operator = req.getParameter("operator");
-        if (operator.equals("HISTORY")) {
+        if ("HISTORY".equals(operator)) {
             getHistory(out);
         } else {
             calculate(operator, req, out);
