@@ -35,14 +35,14 @@ public class MyServletIT {
     public void successfulPost() throws Exception{
         requestAndResponse =
                 doPost("http://localhost:8888/foo",
-                        param("operand1", "2"), param("operand2", "2"), param("operator", "ADD"));
+                        param("operand1", "1"), param("operand2", "1"), param("operator", "ADD"));
         HttpEntity httpEntity = requestAndResponse.response.getEntity();
-        assertThat(EntityUtils.toString(httpEntity),equalTo("4"));
+        assertThat(EntityUtils.toString(httpEntity),equalTo("2"));
         requestAndResponse.request.releaseConnection();
     }
-  /*
+
     @Test
-    public void initializeDatabaseSuccessful() throws Exception {
+    public void getHistorySuccessfulForOneEntry() throws Exception {
         requestAndResponse = doPost("http://localhost:8888/foo",
                                     param("operand1","40"), param("operand2","2"),param("operator","ADD"));
         requestAndResponse.request.releaseConnection();
@@ -51,7 +51,6 @@ public class MyServletIT {
         assertThat(EntityUtils.toString(httpEntity), equalTo("40 ADD 2"));
         requestAndResponse.request.releaseConnection();
     }
- */
 
     private NameValuePair param(String key, String value) {
         return new BasicNameValuePair(key, value);
