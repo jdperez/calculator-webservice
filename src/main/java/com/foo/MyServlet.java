@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -21,7 +22,6 @@ import java.io.PrintWriter;
 public class MyServlet extends HttpServlet {
     private Calculator calculator;
     private CalculatorDAO calculatorDAO;
-    private int currentKey;
 
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
@@ -29,15 +29,20 @@ public class MyServlet extends HttpServlet {
         calculatorDAO = new CalculatorDAO();
         //calculatorDAO = new CalculatorDAO("jdbc:h2:~/Foo","sa", "sa");
         calculatorDAO.createTable();
-        currentKey = 0;
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
         PrintWriter out = resp.getWriter();
+        HttpSession httpSession = req.getSession(true);
+        Integer startKey = (Integer) httpSession.getAttribute("tracker.startKey");
+        if (startKey == null) {
+            startKey = calculatorDAO.getCurrentMaxKey();
+        }
+        httpSession.setAttribute("tracker.startKey", startKey);
         String operator = req.getParameter("operator");
         if ("HISTORY".equals(operator)) {
-            getHistory(out);
+            getHistory(startKey, out);
         } else {
             calculate(operator, req, out);
         }
@@ -51,15 +56,16 @@ public class MyServlet extends HttpServlet {
         String operand1 = req.getParameter("operand1");
         String operand2 = req.getParameter("operand2");
         String[] databaseInputs = {operator,operand1,operand2};
-        currentKey = calculatorDAO.save(databaseInputs);
+        //currentKey = calculatorDAO.save(databaseInputs);
+        calculatorDAO.save(databaseInputs);
         String result = calculator.enumCalculate(operator,operand1,operand2);
         out.print(result);
     }
 
-    private void getHistory(PrintWriter out) {
+    private void getHistory(Integer startKey, PrintWriter out) {
         int currentMaxKey = calculatorDAO.getCurrentMaxKey();
         System.out.println(currentMaxKey);
-        for (int i = 1; i <= currentMaxKey; i++) {
+        for (int i = startKey; i <= currentMaxKey; i++) {
             String[] history = calculatorDAO.load(i);
             String operator = history[0];
             String operand1 = history[1];
