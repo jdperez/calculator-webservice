@@ -37,7 +37,7 @@ public class MyServlet extends HttpServlet {
         HttpSession httpSession = req.getSession(true);
         Integer startKey = (Integer) httpSession.getAttribute("tracker.startKey");
         if (startKey == null) {
-            startKey = calculatorDAO.getCurrentMaxKey();
+            startKey = 1; //calculatorDAO.getCurrentMaxKey();
         }
         httpSession.setAttribute("tracker.startKey", startKey);
         String operator = req.getParameter("operator");

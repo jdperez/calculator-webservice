@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 
@@ -48,25 +49,26 @@ public class MyServletIT {
         requestAndResponse.request.releaseConnection();
         requestAndResponse = doPost("http://localhost:8888/foo",param("operator","HISTORY"));
         HttpEntity httpEntity = requestAndResponse.response.getEntity();
-        assertThat(EntityUtils.toString(httpEntity), equalTo("40 ADD 2<br />"));
+        assertThat(EntityUtils.toString(httpEntity), containsString("40 ADD 2<br />"));
         requestAndResponse.request.releaseConnection();
     }
 
 
     @Test
     public void getHistorySuccessfulForMultipleEntries() throws Exception {
+
         requestAndResponse = doPost("http://localhost:8888/foo",
                 param("operand1","40"), param("operand2","2"),param("operator","ADD"));
         requestAndResponse.request.releaseConnection();
-        requestAndResponse = doPost("http://localhost:8888/foo",
-                param("operand1","10.0"), param("operand2","2"),param("operator","SUBTRACT"));
+        requestAndResponse = doPost("http://localhost:8888/foo/",
+                param("operand1","10.1"), param("operand2","2"),param("operator","SUBTRACT"));
         requestAndResponse.request.releaseConnection();
-        requestAndResponse = doPost("http://localhost:8888/foo",
-                param("operand1","5.0"), param("operand2","5.0"),param("operator","MULTIPLY"));
+        requestAndResponse = doPost("http://localhost:8888/foo/",
+                param("operand1","5"), param("operand2","5"),param("operator","MULTIPLY"));
         requestAndResponse.request.releaseConnection();
         requestAndResponse = doPost("http://localhost:8888/foo",param("operator","HISTORY"));
         HttpEntity httpEntity = requestAndResponse.response.getEntity();
-        assertThat(EntityUtils.toString(httpEntity), equalTo("40 ADD 2<br />10.0 SUBTRACT 2<br />5.0 MULTIPLY 5.0"));
+        assertThat(EntityUtils.toString(httpEntity), containsString("40 ADD 2<br />10.1 SUBTRACT 2<br />5 MULTIPLY 5"));
         requestAndResponse.request.releaseConnection();
     }
 

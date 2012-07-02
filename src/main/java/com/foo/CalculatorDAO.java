@@ -147,7 +147,7 @@ public class CalculatorDAO {
         PreparedStatement statement = null;
         try {
             connection = getConnection();
-            statement = connection.prepareStatement("CREATE TABLE IF NOT EXISTS CalculatorDatabase (key INTEGER, Operator VARCHAR(30), Operand1 INTEGER, Operand2 INTEGER)");
+            statement = connection.prepareStatement("CREATE TABLE IF NOT EXISTS CalculatorDatabase (key INTEGER, Operator VARCHAR(30), Operand1 DECIMAL, Operand2 DECIMAL)");
             statement.execute();
 
         } catch (SQLException ex) {
