@@ -13,7 +13,7 @@ import java.sql.*;
  * Time: 4:47 PM
  * To change this template use File | Settings | File Templates.
  */
-@Component
+
 public class DirectJdbcCalculatorDao implements CalculatorDao {
     private static final Logger LOG = LoggerFactory.getLogger(DirectJdbcCalculatorDao.class);
     public static final int RESULT_SIZE = 3;
