@@ -12,18 +12,18 @@ import java.sql.*;
  * Time: 4:47 PM
  * To change this template use File | Settings | File Templates.
  */
-public class CalculatorDAO {
-    private static final Logger LOG = LoggerFactory.getLogger(CalculatorDAO.class);
+public class CalculatorDao {
+    private static final Logger LOG = LoggerFactory.getLogger(CalculatorDao.class);
     public static final int RESULT_SIZE = 3;
     private String typeOfDAO;
     private String username;
     private String password;
 
-    public CalculatorDAO(){
+    public CalculatorDao(){
         this("jdbc:h2:mem:Foo;DB_CLOSE_DELAY=-1","sa","sa");
     }
 
-    public CalculatorDAO(String username, String password) {
+    public CalculatorDao(String username, String password) {
         if (username == null || username.trim().isEmpty()) {
             throw new IllegalArgumentException("Username is required");
         }
@@ -35,7 +35,7 @@ public class CalculatorDAO {
         this.password = password;
     }
 
-    public CalculatorDAO(String typeOfDAO, String username, String password) {
+    public CalculatorDao(String typeOfDAO, String username, String password) {
         if (username == null || username.trim().isEmpty()) {
             throw new IllegalArgumentException("Username is required");
         }

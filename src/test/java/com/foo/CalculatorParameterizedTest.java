@@ -84,7 +84,7 @@ public class CalculatorParameterizedTest {
 
     @Test
     public void enumOperationSucceeds(){
-        Calculator calculator = new Calculator();
+        Calculator calculator = new DefaultCalculator();
         String calculateResult = calculator.enumCalculate(operation, operand1,operand2);
         assertThat(calculateResult, equalTo(expectedResult));
     }

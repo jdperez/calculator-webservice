@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
     <servlet>
         <servlet-name>myservlet</servlet-name>
-        <servlet-class>com.foo.MyServlet</servlet-class>
+        <servlet-class>com.foo.CalculatorServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>myservlet</servlet-name>

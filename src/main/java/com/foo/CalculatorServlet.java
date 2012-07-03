@@ -19,15 +19,15 @@ import java.io.PrintWriter;
  * To change this template use File | Settings | File Templates.
  */
 
-public class MyServlet extends HttpServlet {
+public class CalculatorServlet extends HttpServlet {
     private Calculator calculator;
-    private CalculatorDAO calculatorDAO;
+    private CalculatorDao calculatorDAO;
 
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        calculator = new Calculator();
-        calculatorDAO = new CalculatorDAO();
-        //calculatorDAO = new CalculatorDAO("jdbc:h2:~/Foo","sa", "sa");
+        calculator = new DefaultCalculator();
+        calculatorDAO = new CalculatorDao();
+        //calculatorDAO = new CalculatorDao("jdbc:h2:~/Foo","sa", "sa");
         calculatorDAO.createTable();
     }
 
