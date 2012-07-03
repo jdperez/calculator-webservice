@@ -23,7 +23,7 @@ import static org.junit.Assert.fail;
 public class CalculatorDAOTest {
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
-    CalculatorDAO databaseFoo = new CalculatorDAO();
+    CalculatorDao databaseFoo = new CalculatorDao();
 
     @Before
     public void setUp() {
@@ -33,19 +33,19 @@ public class CalculatorDAOTest {
     @Test
     public void emptyPasswordThrowsException() {
         expectedException.expect(IllegalArgumentException.class);
-        CalculatorDAO databaseFoo = new CalculatorDAO("sa","");
+        CalculatorDao databaseFoo = new CalculatorDao("sa","");
     }
 
     @Test
     public void emptyUsernameThrowsException() {
         expectedException.expect(IllegalArgumentException.class);
-        new CalculatorDAO("","sa");
+        new CalculatorDao("","sa");
     }
 
     @Test
     public void emptyUsernamePasswordThrowsException() {
         expectedException.expect(IllegalArgumentException.class);
-        new CalculatorDAO("","");
+        new CalculatorDao("","");
     }
 
     @Test
