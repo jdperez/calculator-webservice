@@ -53,10 +53,8 @@ public class MyServletIT {
         requestAndResponse.request.releaseConnection();
     }
 
-
     @Test
     public void getHistorySuccessfulForMultipleEntries() throws Exception {
-
         requestAndResponse = doPost("http://localhost:8888/foo",
                 param("operand1","40"), param("operand2","2"),param("operator","ADD"));
         requestAndResponse.request.releaseConnection();
@@ -64,14 +62,13 @@ public class MyServletIT {
                 param("operand1","10.1"), param("operand2","2"),param("operator","SUBTRACT"));
         requestAndResponse.request.releaseConnection();
         requestAndResponse = doPost("http://localhost:8888/foo/",
-                param("operand1","5"), param("operand2","5"),param("operator","MULTIPLY"));
+                param("operand1", "5"), param("operand2", "5"), param("operator", "MULTIPLY"));
         requestAndResponse.request.releaseConnection();
-        requestAndResponse = doPost("http://localhost:8888/foo",param("operator","HISTORY"));
+        requestAndResponse = doPost("http://localhost:8888/foo", param("operator", "HISTORY"));
         HttpEntity httpEntity = requestAndResponse.response.getEntity();
         assertThat(EntityUtils.toString(httpEntity), containsString("40 ADD 2<br />10.1 SUBTRACT 2<br />5 MULTIPLY 5"));
         requestAndResponse.request.releaseConnection();
     }
-
 
     private NameValuePair param(String key, String value) {
         return new BasicNameValuePair(key, value);
@@ -104,14 +101,14 @@ public class MyServletIT {
     public void successfulPost() throws Exception {
         File file = new File("/home/jose5124/dev/projects/project1/src/main/webapp/WEB-INF/web.xml");
         ServletRunner servletRunner = new ServletRunner(file);
-        servletRunner.registerServlet("myServlet", MyServlet.class.getName());
+        servletRunner.registerServlet("myServlet", CalculatorServlet.class.getName());
         ServletUnitClient servletUnitClient = servletRunner.newClient();
         WebRequest webRequest = new PostMethodWebRequest("http://localhost/myServlet");
         webRequest.setParameter("operator","ADD");
         webRequest.setParameter("operand1","2");
         webRequest.setParameter("operand2","2");
         InvocationContext invocationContext = servletUnitClient.newInvocation(webRequest);
-        MyServlet myServlet = (MyServlet) invocationContext.getServlet();
+        CalculatorServlet myServlet = (CalculatorServlet) invocationContext.getServlet();
         myServlet.doPost(invocationContext.getRequest(),invocationContext.getResponse());
         WebResponse webResponse = invocationContext.getServletResponse();
         assertThat(webResponse.getContentType(),equalTo("text/html"));
