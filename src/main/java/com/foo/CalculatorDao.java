@@ -2,6 +2,7 @@ package com.foo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.sql.*;
 
@@ -12,6 +13,7 @@ import java.sql.*;
  * Time: 4:47 PM
  * To change this template use File | Settings | File Templates.
  */
+@Component
 public class CalculatorDao {
     private static final Logger LOG = LoggerFactory.getLogger(CalculatorDao.class);
     public static final int RESULT_SIZE = 3;

@@ -1,5 +1,9 @@
 package com.foo;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -23,8 +27,9 @@ public class CalculatorServlet extends HttpServlet {
 
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        calculator = new DefaultCalculator();
-        calculatorDAO = new CalculatorDao();
+        ApplicationContext context = WebApplicationContextUtils.getRequiredWebApplicationContext(config.getServletContext());
+        calculator = context.getBean(Calculator.class);
+        calculatorDAO = context.getBean(CalculatorDao.class);
         //calculatorDAO = new CalculatorDao("jdbc:h2:~/Foo","sa", "sa");
         calculatorDAO.createTable();
     }
