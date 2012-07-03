@@ -24,15 +24,7 @@ public class CalculatorDao {
     }
 
     public CalculatorDao(String username, String password) {
-        if (username == null || username.trim().isEmpty()) {
-            throw new IllegalArgumentException("Username is required");
-        }
-        if (password == null || password.trim().isEmpty()) {
-            throw new IllegalArgumentException("Password is required");
-        }
-        typeOfDAO =  "jdbc:h2:mem:Foo;DB_CLOSE_DELAY=-1";
-        this.username = username;
-        this.password = password;
+        this("jdbc:h2:mem:Foo;DB_CLOSE_DELAY=-1", username, password);
     }
 
     public CalculatorDao(String typeOfDAO, String username, String password) {
