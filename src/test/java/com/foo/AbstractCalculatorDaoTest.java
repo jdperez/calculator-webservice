@@ -18,13 +18,16 @@ import static org.junit.Assert.assertThat;
  * Time: 4:11 PM
  * To change this template use File | Settings | File Templates.
  */
-public class AbstractCalculatorDaoTest {
+public abstract class AbstractCalculatorDaoTest {
+    CalculatorDao databaseFoo;
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
-    CalculatorDao databaseFoo = new DirectJdbcCalculatorDao();
+
+    protected abstract CalculatorDao getDaoInstance();
 
     @Before
     public void setUp() {
+        databaseFoo = getDaoInstance();
         databaseFoo.createTable();
     }
 
