@@ -1,7 +1,5 @@
 package com.foo;
 
-import com.sun.org.apache.xml.internal.serialize.Printer;
-
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
