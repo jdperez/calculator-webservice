@@ -20,10 +20,10 @@ import static org.junit.Assert.fail;
  * Time: 3:59 PM
  * To change this template use File | Settings | File Templates.
  */
-public class CalculatorDAOTest {
+public class DirectJdbcCalculatorDaoTest {
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
-    CalculatorDao databaseFoo = new CalculatorDao();
+    CalculatorDao databaseFoo = new DirectJdbcCalculatorDao();
 
     @Before
     public void setUp() {
@@ -33,19 +33,19 @@ public class CalculatorDAOTest {
     @Test
     public void emptyPasswordThrowsException() {
         expectedException.expect(IllegalArgumentException.class);
-        CalculatorDao databaseFoo = new CalculatorDao("sa","");
+        CalculatorDao databaseFoo = new DirectJdbcCalculatorDao("sa","");
     }
 
     @Test
     public void emptyUsernameThrowsException() {
         expectedException.expect(IllegalArgumentException.class);
-        new CalculatorDao("","sa");
+        new DirectJdbcCalculatorDao("","sa");
     }
 
     @Test
     public void emptyUsernamePasswordThrowsException() {
         expectedException.expect(IllegalArgumentException.class);
-        new CalculatorDao("","");
+        new DirectJdbcCalculatorDao("","");
     }
 
     @Test
