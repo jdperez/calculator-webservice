@@ -62,10 +62,10 @@ public class CalculatorIT {
         requestAndResponse = doFormPost("http://localhost:8888/foo",
                 param("operand1", "40"), param("operand2", "2"), param("operator", "ADD"));
         requestAndResponse.request.releaseConnection();
-        requestAndResponse = doFormPost("http://localhost:8888/foo/",
+        requestAndResponse = doFormPost("http://localhost:8888/foo",
                 param("operand1", "10.1"), param("operand2", "2"), param("operator", "SUBTRACT"));
         requestAndResponse.request.releaseConnection();
-        requestAndResponse = doFormPost("http://localhost:8888/foo/",
+        requestAndResponse = doFormPost("http://localhost:8888/foo",
                 param("operand1", "5"), param("operand2", "5"), param("operator", "MULTIPLY"));
         requestAndResponse.request.releaseConnection();
         requestAndResponse = doFormPost("http://localhost:8888/foo", param("operator", "HISTORY"));
