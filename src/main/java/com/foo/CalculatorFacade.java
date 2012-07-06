@@ -8,5 +8,5 @@ package com.foo;
  * To change this template use File | Settings | File Templates.
  */
 public interface CalculatorFacade {
-    String divide(int operand1, int operand2);
+    String divide(Calculation calculation);
 }

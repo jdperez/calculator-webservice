@@ -67,7 +67,7 @@ public class RestfulCalculatorServlet extends HttpServlet{
         if (operand1 == null || operand2 == null) {
             response.sendError(400, "Not enough operands.");
         }
-        String result = calculator.divide(Integer.valueOf(operand1),Integer.valueOf(operand2));
+        String result = calculator.divide(new Calculation(Integer.valueOf(operand1),Integer.valueOf(operand2)));
         String resultJson = "\"value\": 5";
         out.print(resultJson);
 
@@ -92,7 +92,7 @@ public class RestfulCalculatorServlet extends HttpServlet{
         if (operand1 == null || operand2 == null) {
             response.sendError(400, "Not enough operands.");
         }
-        String result = calculator.divide(Integer.valueOf(operand1),Integer.valueOf(operand2));
+        String result = calculator.divide(new Calculation(Integer.valueOf(operand1),Integer.valueOf(operand2)));
         String resultXml = "<result>"+result+"</result>";
         out.print(resultXml);
     }
