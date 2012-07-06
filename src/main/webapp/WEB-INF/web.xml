@@ -15,7 +15,15 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>myservlet</servlet-name>
-        <url-pattern>/foo/*</url-pattern>
+        <url-pattern>/foo/</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>restfulservlet</servlet-name>
+        <servlet-class>com.foo.RestfulCalculatorServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>restfulservlet</servlet-name>
+        <url-pattern>/foo/api/*</url-pattern>
     </servlet-mapping>
 
 </web-app>
