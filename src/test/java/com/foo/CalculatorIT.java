@@ -1,23 +1,27 @@
 package com.foo;
 
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
+import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
+import javax.ws.rs.core.MediaType;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
+import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
@@ -29,13 +33,49 @@ import static org.junit.Assert.assertThat;
  * Time: 12:00 AM
  * To change this template use File | Settings | File Templates.
  */
-public class MyServletIT {
+public class CalculatorIT {
     RequestAndResponse requestAndResponse;
+
+    //RESTish tests
+    @Test
+    public void divisionSuccessfulUsingRest() throws Exception{
+        DefaultHttpClient httpClient = new DefaultHttpClient();
+        StringEntity entity = new StringEntity(
+                "<calculation>" +
+                        "<operand1>10</operand1>"+
+                        "<operand2>2</operand2>"+
+                "</calculation>", ContentType.APPLICATION_XML);
+        HttpPost httpPost = new HttpPost("http://localhost:8888/foo/api/calculator");
+        httpPost.setHeader("accept","application/xml");
+        httpPost.setEntity(entity);
+        HttpResponse response = httpClient.execute(httpPost);
+        assertThat(response.getEntity().getContentType().getValue(),equalTo("application/xml"));
+        assertThat(IOUtils.toString(response.getEntity().getContent()),containsString("<result>5</result>"));
+        assertThat(response.getStatusLine().getStatusCode(),equalTo(200));
+    }
+
+    @Test
+    public void divisionSuccessfulUsingRestJson() {
+        String requestJson = "{ \"operand1\": 10, \"operand2\": 2 }";
+        WebResource resource = Client.create().resource("http://localhost:8888/foo/api");
+        ClientResponse response = resource.path("calculator").type(APPLICATION_JSON).entity(requestJson).accept(APPLICATION_JSON).post(ClientResponse.class);
+        assertThat(response.getEntity(String.class),containsString("\"value\": 5"));
+        assertThat(response.getStatus(),equalTo(200));
+        assertThat(response.getHeaders().getFirst("Content-Type"),equalTo("application/json"));
+    }
+
+    @Test
+    public void badRequestResponseBasedOnInsufficientOperands() throws Exception {
+        String requestJson = "{ \"operand1\": 10 }";
+        WebResource resource = Client.create().resource("http://localhost:8888/foo/api");
+        ClientResponse response = resource.path("calculator").type(APPLICATION_JSON).entity(requestJson).accept(APPLICATION_JSON).post(ClientResponse.class);
+        assertThat(response.getStatus(),equalTo(400));
+    }
 
     @Test
     public void successfulPost() throws Exception{
         requestAndResponse =
-                doPost("http://localhost:8888/foo",
+                doFormPost("http://localhost:8888/foo",
                         param("operand1", "1"), param("operand2", "1"), param("operator", "ADD"));
         HttpEntity httpEntity = requestAndResponse.response.getEntity();
         assertThat(EntityUtils.toString(httpEntity),equalTo("2"));
@@ -44,10 +84,10 @@ public class MyServletIT {
 
     @Test
     public void getHistorySuccessfulForOneEntry() throws Exception {
-        requestAndResponse = doPost("http://localhost:8888/foo",
-                                    param("operand1","40"), param("operand2","2"),param("operator","ADD"));
+        requestAndResponse = doFormPost("http://localhost:8888/foo",
+                param("operand1", "40"), param("operand2", "2"), param("operator", "ADD"));
         requestAndResponse.request.releaseConnection();
-        requestAndResponse = doPost("http://localhost:8888/foo",param("operator","HISTORY"));
+        requestAndResponse = doFormPost("http://localhost:8888/foo", param("operator", "HISTORY"));
         HttpEntity httpEntity = requestAndResponse.response.getEntity();
         assertThat(EntityUtils.toString(httpEntity), containsString("40 ADD 2<br />"));
         requestAndResponse.request.releaseConnection();
@@ -55,16 +95,16 @@ public class MyServletIT {
 
     @Test
     public void getHistorySuccessfulForMultipleEntries() throws Exception {
-        requestAndResponse = doPost("http://localhost:8888/foo",
-                param("operand1","40"), param("operand2","2"),param("operator","ADD"));
+        requestAndResponse = doFormPost("http://localhost:8888/foo",
+                param("operand1", "40"), param("operand2", "2"), param("operator", "ADD"));
         requestAndResponse.request.releaseConnection();
-        requestAndResponse = doPost("http://localhost:8888/foo/",
-                param("operand1","10.1"), param("operand2","2"),param("operator","SUBTRACT"));
+        requestAndResponse = doFormPost("http://localhost:8888/foo/",
+                param("operand1", "10.1"), param("operand2", "2"), param("operator", "SUBTRACT"));
         requestAndResponse.request.releaseConnection();
-        requestAndResponse = doPost("http://localhost:8888/foo/",
+        requestAndResponse = doFormPost("http://localhost:8888/foo/",
                 param("operand1", "5"), param("operand2", "5"), param("operator", "MULTIPLY"));
         requestAndResponse.request.releaseConnection();
-        requestAndResponse = doPost("http://localhost:8888/foo", param("operator", "HISTORY"));
+        requestAndResponse = doFormPost("http://localhost:8888/foo", param("operator", "HISTORY"));
         HttpEntity httpEntity = requestAndResponse.response.getEntity();
         assertThat(EntityUtils.toString(httpEntity), containsString("40 ADD 2<br />10.1 SUBTRACT 2<br />5 MULTIPLY 5"));
         requestAndResponse.request.releaseConnection();
@@ -74,7 +114,7 @@ public class MyServletIT {
         return new BasicNameValuePair(key, value);
     }
 
-    private RequestAndResponse doPost(String uri, NameValuePair... params) throws IOException {
+    private RequestAndResponse doFormPost(String uri, NameValuePair... params) throws IOException {
         DefaultHttpClient httpClient = new DefaultHttpClient();
         UrlEncodedFormEntity entity = new UrlEncodedFormEntity(Arrays.asList(params), "UTF-8");
         HttpPost httpPost = new HttpPost(uri);
@@ -109,7 +149,7 @@ public class MyServletIT {
         webRequest.setParameter("operand2","2");
         InvocationContext invocationContext = servletUnitClient.newInvocation(webRequest);
         CalculatorServlet myServlet = (CalculatorServlet) invocationContext.getServlet();
-        myServlet.doPost(invocationContext.getRequest(),invocationContext.getResponse());
+        myServlet.doFormPost(invocationContext.getRequest(),invocationContext.getResponse());
         WebResponse webResponse = invocationContext.getServletResponse();
         assertThat(webResponse.getContentType(),equalTo("text/html"));
         assertThat(webResponse.getText(), equalTo("4"));
