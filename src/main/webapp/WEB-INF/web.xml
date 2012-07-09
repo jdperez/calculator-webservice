@@ -18,6 +18,19 @@
         <url-pattern>/foo</url-pattern>
     </servlet-mapping>
     <servlet>
+        <servlet-name>jerseyservlet</servlet-name>
+        <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+        <init-param>
+            <param-name>com.sun.jersey.config.property.packages</param-name>
+            <param-value>com.foo</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>jerseyservlet</servlet-name>
+        <url-pattern>/foo/api/*</url-pattern>
+    </servlet-mapping>
+    
+    <!--<servlet>
         <servlet-name>restfulservlet</servlet-name>
         <servlet-class>com.foo.RestfulCalculatorServlet</servlet-class>
     </servlet>
@@ -25,5 +38,5 @@
         <servlet-name>restfulservlet</servlet-name>
         <url-pattern>/foo/api/*</url-pattern>
     </servlet-mapping>
-
+-->
 </web-app>
