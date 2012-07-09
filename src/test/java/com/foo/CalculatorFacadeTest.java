@@ -1,5 +1,6 @@
 package com.foo;
 
+import com.sun.javaws.exceptions.InvalidArgumentException;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -73,7 +74,25 @@ public class CalculatorFacadeTest {
         calculatorFacade.divide(calculation(1,2));
     }
 
-    private Calculation calculation(int operand1, int operand2) {
+    @Test
+    public void missingBothOperandsThrowsException () throws Exception {
+        expectedException.expect(sameClass(BadUserInputException.class));
+        calculatorFacade.divide(calculation(null,null));
+    }
+
+    @Test
+    public void missingOperandOneThrowsException () throws Exception {
+        expectedException.expect(sameClass(BadUserInputException.class));
+        calculatorFacade.divide(calculation(null,123));
+    }
+
+    @Test
+     public void missingOperandTwoThrowsException () throws Exception {
+        expectedException.expect(sameClass(BadUserInputException.class));
+        calculatorFacade.divide(calculation(123,null));
+    }
+
+    private Calculation calculation(Integer operand1, Integer operand2) {
         return new Calculation(operand1, operand2);
     }
 
