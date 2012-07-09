@@ -49,7 +49,7 @@ public class RestfulCalculatorIT {
         String requestJson = "{ \"operand1\": 10, \"operand2\": 2 }";
         WebResource resource = Client.create().resource("http://localhost:8888/foo/api");
         ClientResponse response = resource.path("calculator").type(APPLICATION_JSON).entity(requestJson).accept(APPLICATION_JSON).post(ClientResponse.class);
-        assertThat(response.getEntity(String.class),containsString("\"result\": 5"));
+        assertThat(response.getEntity(String.class),containsString("\"result\":\"5\""));
         assertThat(response.getStatus(),equalTo(200));
         assertThat(response.getHeaders().getFirst("Content-Type"),containsString("application/json"));
     }
