@@ -7,5 +7,8 @@ package com.foo;
  * Time: 4:44 PM
  * To change this template use File | Settings | File Templates.
  */
-public class BadUserInputException {
+public class BadUserInputException extends RuntimeException {
+    public BadUserInputException(String message) {
+        super(message);
+    }
 }
