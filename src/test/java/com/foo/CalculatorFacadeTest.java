@@ -1,6 +1,5 @@
 package com.foo;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
