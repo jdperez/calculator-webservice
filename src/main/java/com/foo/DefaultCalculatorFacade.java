@@ -36,10 +36,10 @@ public class DefaultCalculatorFacade implements CalculatorFacade {
     public String divide(Calculation calculation) {
         String operand1String = String.valueOf(calculation.getOperand1());
         String operand2String = String.valueOf(calculation.getOperand2());
-        String result = calculator.enumCalculate("DIVIDE",operand1String,operand2String);
         if (calculation.getOperand1() == null || calculation.getOperand2() == null) {
             throw new BadUserInputException("Not enough operands");
         }
+        String result = calculator.enumCalculate("DIVIDE",operand1String,operand2String);
         if (result.equals("not enough operands or divide by zero")) {
             throw new IllegalArgumentException("Division by zero");
         }
