@@ -1,5 +1,7 @@
 package com.foo;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * Created with IntelliJ IDEA.
  * User: jose5124
@@ -7,21 +9,42 @@ package com.foo;
  * Time: 2:32 PM
  * To change this template use File | Settings | File Templates.
  */
+@XmlRootElement
 public class Calculation {
-    private final int operand1;
-    private final int operand2;
+    private Integer operand1;
+    private Integer operand2;
+    private String result;
 
-    public Calculation(int operand1, int operand2) {
+    public Calculation() {
+    }
+
+    public Calculation(Integer operand1, Integer operand2) {
 
         this.operand1 = operand1;
         this.operand2 = operand2;
     }
 
-    public int getOperand1() {
+    public Integer getOperand1() {
         return operand1;
     }
 
-    public int getOperand2() {
+    public void setOperand1(Integer operand1) {
+        this.operand1 = operand1;
+    }
+
+    public Integer getOperand2() {
         return operand2;
+    }
+
+    public void setOperand2(Integer operand2) {
+        this.operand2 = operand2;
+    }
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
     }
 }
