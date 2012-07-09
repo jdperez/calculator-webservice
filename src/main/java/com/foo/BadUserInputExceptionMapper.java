@@ -15,6 +15,6 @@ import javax.ws.rs.ext.Provider;
 public class BadUserInputExceptionMapper implements ExceptionMapper<BadUserInputException> {
     @Override
     public Response toResponse(BadUserInputException e) {
-        return Response.status(400).entity("You're stupid").build();
+        return Response.status(400).entity(e.getMessage()).build();
     }
 }

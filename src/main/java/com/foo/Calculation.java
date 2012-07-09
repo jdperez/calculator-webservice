@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Calculation {
     private Integer operand1;
     private Integer operand2;
-    private String result;
+    private Integer result;
 
     public Calculation() {
     }
@@ -40,11 +40,11 @@ public class Calculation {
         this.operand2 = operand2;
     }
 
-    public String getResult() {
+    public Integer getResult() {
         return result;
     }
 
-    public void setResult(String result) {
+    public void setResult(Integer result) {
         this.result = result;
     }
 }

@@ -17,14 +17,14 @@ import javax.ws.rs.core.MediaType;
  * Time: 3:59 PM
  * To change this template use File | Settings | File Templates.
  */
-@Path("calculator")
+@Path("calculation")
 public class CalculatorJaxRsResource {
     @POST
     @Consumes({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
     public Calculation calculate(Calculation calculation, @Context ServletContext servletContext) {
         CalculatorFacade calculator = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext).getBean(CalculatorFacade.class);
-        String result = calculator.divide(calculation);
+        Integer result = calculator.divide(calculation);
         calculation.setResult(result);
         return calculation;
     }

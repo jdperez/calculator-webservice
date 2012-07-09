@@ -21,7 +21,7 @@ import static org.mockito.Mockito.when;
  * Time: 10:13 AM
  * To change this template use File | Settings | File Templates.
  */
-public class CalculatorFacadeTest {
+public class DefaultCalculatorFacadeTest {
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
     CalculatorFacade calculatorFacade;
@@ -36,31 +36,31 @@ public class CalculatorFacadeTest {
     @Test
     public void dividesFirstOperandBySecond() throws Exception {
         when(calculator.enumCalculate("DIVIDE","10654654","265484")).thenReturn("9");
-        String result = calculatorFacade.divide(calculation(10654654, 265484));
-        assertThat(result, equalTo("9"));
+        int result = calculatorFacade.divide(calculation(10654654, 265484));
+        assertThat(result, equalTo(9));
         when(calculator.enumCalculate("DIVIDE","10","1")).thenReturn("3");
         result = calculatorFacade.divide(calculation(10,1));
-        assertThat(result,equalTo("3"));
+        assertThat(result,equalTo(3));
     }
 
     @Test
-    public void returnWarningIfGreaterThanTen() throws Exception {
+    public void throwsExceptionIfGreaterThanTen() throws Exception {
+        expectedException.expect(sameClass(BadUserInputException.class));
         when(calculator.enumCalculate("DIVIDE","1","1")).thenReturn("11");
-        String result = calculatorFacade.divide(calculation(1,1));
-        assertThat(result,equalTo("Result greater than 10"));
+        calculatorFacade.divide(calculation(1,1));
 
     }
 
     @Test
-    public void returnWaringIfLessThanZero() throws Exception {
+    public void throwsExceptionIfLessThanZero() throws Exception {
+        expectedException.expect(sameClass(BadUserInputException.class));
         when(calculator.enumCalculate(anyString(),anyString(),anyString())).thenReturn("-1");
-        String result = calculatorFacade.divide(calculation(0,0));
-        assertThat(result,equalTo("Result less than zero"));
+        calculatorFacade.divide(calculation(0,0));
     }
 
     @Test
     public void throwsExceptionOnDivideByZero() throws Exception {
-        expectedException.expect(sameClass(IllegalArgumentException.class));
+        expectedException.expect(sameClass(BadUserInputException.class));
         expectedException.expectMessage("Division by zero");
         when(calculator.enumCalculate(anyString(), anyString(), anyString())).thenReturn("not enough operands or divide by zero");
         calculatorFacade.divide(calculation(0,0));

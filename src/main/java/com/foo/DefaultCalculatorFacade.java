@@ -33,7 +33,7 @@ public class DefaultCalculatorFacade implements CalculatorFacade {
     }
 
     @Override
-    public String divide(Calculation calculation) {
+    public int divide(Calculation calculation) {
         String operand1String = String.valueOf(calculation.getOperand1());
         String operand2String = String.valueOf(calculation.getOperand2());
         if (calculation.getOperand1() == null || calculation.getOperand2() == null) {
@@ -41,17 +41,17 @@ public class DefaultCalculatorFacade implements CalculatorFacade {
         }
         String result = calculator.enumCalculate("DIVIDE",operand1String,operand2String);
         if (result.equals("not enough operands or divide by zero")) {
-            throw new IllegalArgumentException("Division by zero");
+            throw new BadUserInputException("Division by zero");
         }
         try {
             if (Integer.valueOf(result) > 10) {
-                return "Result greater than 10";
+                throw new BadUserInputException("Result greater than 10");
             } else if (Integer.valueOf(result) < 0) {
-                return "Result less than zero";
+                throw new BadUserInputException("Result less than 0");
             }
         } catch (NumberFormatException e) {
             throw new IllegalStateException("Unexpected string from calculator: "+ result,e);
         }
-        return result;  //To change body of created methods use File | Settings | File Templates.
+        return Integer.parseInt(result);  //To change body of created methods use File | Settings | File Templates.
     }
 }
