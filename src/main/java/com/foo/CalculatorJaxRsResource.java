@@ -3,10 +3,7 @@ package com.foo;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.ServletContext;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
@@ -28,4 +25,12 @@ public class CalculatorJaxRsResource {
         calculation.setResult(result);
         return calculation;
     }
+
+    @GET
+    @Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
+    public Calculations getHistory (@Context ServletContext servletContext) {
+        //TODO: Write me!
+        throw new UnsupportedOperationException("This crap doesn't work");
+    }
+
 }

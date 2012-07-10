@@ -154,4 +154,9 @@ public class DirectJdbcCalculatorDao implements CalculatorDao {
 
     }
 
+    @Override
+    public int save(Calculation calculation) {
+        //TODO:Write Me!
+        throw new UnsupportedOperationException("Method not written-com.foo.DirectJdbcCalculatorDao.save");
+    }
 }

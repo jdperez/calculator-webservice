@@ -15,4 +15,6 @@ public interface CalculatorDao {
     String[] load(int key);
 
     void createTable();
+
+    int save(Calculation calculation);
 }

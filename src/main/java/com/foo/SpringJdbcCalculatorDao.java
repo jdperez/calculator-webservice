@@ -60,4 +60,10 @@ public class SpringJdbcCalculatorDao implements CalculatorDao {
     public void createTable() {
         jdbcOperations.execute("CREATE TABLE IF NOT EXISTS CalculatorDatabase (key INTEGER, Operator VARCHAR(30), Operand1 DECIMAL, Operand2 DECIMAL)");
     }
+
+    @Override
+    public int save(Calculation calculation) {
+        //TODO:Write Me!
+        throw new UnsupportedOperationException("Method not written-com.foo.SpringJdbcCalculatorDao.save");
+    }
 }
