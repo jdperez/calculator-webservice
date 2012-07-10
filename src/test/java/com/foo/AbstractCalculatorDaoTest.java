@@ -34,7 +34,7 @@ public abstract class AbstractCalculatorDaoTest {
     @Test
     public void emptyPasswordThrowsException() {
         expectedException.expect(IllegalArgumentException.class);
-        CalculatorDao databaseFoo = new DirectJdbcCalculatorDao("sa","");
+        new DirectJdbcCalculatorDao("sa","");
     }
 
     @Test
@@ -53,7 +53,7 @@ public abstract class AbstractCalculatorDaoTest {
     public void emptyStringThrowsExceptionInSave() {
         expectedException.expect(IllegalArgumentException.class);
         String[] databaseInputs = {"","","",""};
-        int key = databaseFoo.save(databaseInputs);
+        databaseFoo.save(databaseInputs);
     }
 
     @Test
