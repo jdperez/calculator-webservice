@@ -27,10 +27,12 @@ public class DefaultCalculatorFacadeTest {
     public ExpectedException expectedException = ExpectedException.none();
     CalculatorFacade calculatorFacade;
     private Calculator calculator;
+    private CalculatorDao calculatorDao;
 
     @Before
     public void setUp() throws Exception {
         calculator = mock(Calculator.class);
+        calculatorDao = mock(CalculatorDao.class);
         calculatorFacade = new DefaultCalculatorFacade(calculator);
     }
 
@@ -48,7 +50,7 @@ public class DefaultCalculatorFacadeTest {
     public void throwsExceptionIfGreaterThanTen() throws Exception {
         expectedException.expect(sameClass(BadUserInputException.class));
         when(calculator.enumCalculate("DIVIDE","1","1")).thenReturn("11");
-        calculatorFacade.divide(calculation(1,1));
+        calculatorFacade.divide(calculation(1, 1));
 
     }
 
@@ -56,7 +58,7 @@ public class DefaultCalculatorFacadeTest {
     public void throwsExceptionIfLessThanZero() throws Exception {
         expectedException.expect(sameClass(BadUserInputException.class));
         when(calculator.enumCalculate(anyString(),anyString(),anyString())).thenReturn("-1");
-        calculatorFacade.divide(calculation(0,0));
+        calculatorFacade.divide(calculation(0, 0));
     }
 
     @Test
@@ -90,6 +92,13 @@ public class DefaultCalculatorFacadeTest {
      public void missingOperandTwoThrowsException () throws Exception {
         expectedException.expect(sameClass(BadUserInputException.class));
         calculatorFacade.divide(calculation(123,null));
+    }
+
+    @Test
+    public void successfulStoreOfCalculation() throws Exception {
+        Calculation calculation = new Calculation(10,2);
+        calculatorFacade.divide(calculation);
+        verify(calculatorDao).save(calculation);
     }
 
     private Calculation calculation(Integer operand1, Integer operand2) {

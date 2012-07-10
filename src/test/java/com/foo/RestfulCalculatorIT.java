@@ -94,7 +94,7 @@ public class RestfulCalculatorIT {
     public void divisionByZeroGeneratesResponse() throws Exception {
         ClientResponse response = resource.path("calculation").entity(new Calculation(10,0)).post(ClientResponse.class);
         assertThat(response.getStatus(),equalTo(400));
-        assertThat(response.getEntity(String.class), containsString("division by zero"));
+        assertThat(response.getEntity(String.class), containsString("Division by zero"));
 
     }
 
@@ -102,14 +102,14 @@ public class RestfulCalculatorIT {
     public void checkIfValueGreaterThanTen() throws Exception {
         ClientResponse response = resource.path("calculation").entity(new Calculation(11,1)).post(ClientResponse.class);
         assertThat(response.getStatus(), equalTo(400));
-        assertThat(response.getEntity(String.class), containsString("output greater than 10"));
+        assertThat(response.getEntity(String.class), containsString("greater than 10"));
     }
 
     @Test
     public void checkIfValueLessThanZero() throws Exception {
         ClientResponse response = resource.path("calculation").entity(new Calculation(-1,1)).post(ClientResponse.class);
         assertThat(response.getStatus(), equalTo(400));
-        assertThat(response.getEntity(String.class), containsString("output less than 0"));
+        assertThat(response.getEntity(String.class), containsString("less than 0"));
     }
 
     private Matcher<Calculation> calculation(final int operand1, final int operand2, final int result) {
