@@ -12,9 +12,13 @@ public interface CalculatorDao {
 
     int save(String[] databaseInputs);
 
+    int save(Calculation calculation);
+
     String[] load(int key);
+
+    Calculation loadCalculation(int key);
 
     void createTable();
 
-    int save(Calculation calculation);
+    Calculations loadAll();
 }

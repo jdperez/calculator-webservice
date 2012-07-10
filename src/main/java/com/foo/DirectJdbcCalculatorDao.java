@@ -1,11 +1,8 @@
 package com.foo;
 
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 import java.sql.*;
-
 /**
  * Created with IntelliJ IDEA.
  * User: jose5124
@@ -15,7 +12,7 @@ import java.sql.*;
  */
 
 public class DirectJdbcCalculatorDao implements CalculatorDao {
-    private static final Logger LOG = LoggerFactory.getLogger(DirectJdbcCalculatorDao.class);
+    private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(DirectJdbcCalculatorDao.class);
     public static final int RESULT_SIZE = 3;
     private String typeOfDAO;
     private String username;
@@ -119,6 +116,12 @@ public class DirectJdbcCalculatorDao implements CalculatorDao {
         return new String[0];
     }
 
+    @Override
+    public Calculation loadCalculation(int key) {
+        //TODO:Write Me!
+        throw new UnsupportedOperationException("Method not written-com.foo.DirectJdbcCalculatorDao.loadCalculation");
+    }
+
     private PreparedStatement prepareTheStatement(int key, Connection connection) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM CalculatorDatabase Where key=?");
         preparedStatement.setInt(1,key);
@@ -152,6 +155,12 @@ public class DirectJdbcCalculatorDao implements CalculatorDao {
              LOG.error("There was a problem accessing the database", ex);
         }
 
+    }
+
+    @Override
+    public Calculations loadAll() {
+        //TODO:Write Me!
+        throw new UnsupportedOperationException("Method not written-com.foo.DirectJdbcCalculatorDao.loadAll");
     }
 
     @Override
