@@ -116,7 +116,7 @@ public class RestfulCalculatorIT {
         return new TypeSafeMatcher<Calculation>() {
             @Override
             public boolean matchesSafely(Calculation calculation) {
-                return ((operand1 == calculation.getOperand1()) && (operand2 == calculation.getOperand1()) && (result == calculation.getResult()));
+                return ((operand1 == calculation.getOperand1()) && (operand2 == calculation.getOperand2()) && (result == calculation.getResult()));
             }
 
             @Override

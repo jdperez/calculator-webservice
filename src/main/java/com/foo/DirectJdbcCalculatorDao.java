@@ -71,7 +71,6 @@ public class DirectJdbcCalculatorDao implements CalculatorDao {
         return maxKey;
     }
 
-
     @Override
     public int save(String[] databaseInputs) {
         int insertKey = getCurrentMaxKey() + 1;
@@ -98,7 +97,6 @@ public class DirectJdbcCalculatorDao implements CalculatorDao {
         }
         preparedStatement.execute();
     }
-
 
     @Override
     public String[] load(int key) {
