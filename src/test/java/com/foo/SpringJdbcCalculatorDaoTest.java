@@ -1,17 +1,21 @@
 package com.foo;
 
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.internal.matchers.TypeSafeMatcher;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.assertThat;
 
 /**
  * Created with IntelliJ IDEA.
@@ -40,14 +44,34 @@ public class SpringJdbcCalculatorDaoTest extends AbstractCalculatorDaoTest {
     }
 
     @Test
-    public void successfulLoadOfAllRecords() throws Exception {
+    public void successfulLoadOfSeveralRecords() throws Exception {
+        //TODO: assert is too strict
         databaseFoo.save(new Calculation(25,5));
         databaseFoo.save(new Calculation(6,3));
         databaseFoo.save(new Calculation(12,2));
         Calculations output = databaseFoo.loadAll();
-        List<Calculation> outputCalculations = output.getCalculations();
-        assertThat(new Object[] {outputCalculations.get(0).getOperand1(),outputCalculations.get(0).getOperand2()},equalTo(new Object[]{25, 5}));
-        assertThat(new Object[] {outputCalculations.get(1).getOperand1(),outputCalculations.get(1).getOperand2()},equalTo(new Object[]{6, 3}));
-        assertThat(new Object[] {outputCalculations.get(2).getOperand1(),outputCalculations.get(2).getOperand2()},equalTo(new Object[]{12, 2}));
+        Iterator<Calculation> iterator = output.getCalculations().iterator();
+        while (iterator.hasNext()) {
+            Calculation calculation = iterator.next();
+            System.out.println(calculation.getOperand1()+" "+calculation.getOperand2());
+        }
+        assertThat(output.getCalculations(),hasItem(calculation(25,5)));
+        assertThat(output.getCalculations(),hasItem(calculation(6,3)));
+        assertThat(output.getCalculations(),hasItem(calculation(12,2)));
+    }
+
+    private Matcher<Calculation> calculation(final int operand1, final int operand2) {
+        return new TypeSafeMatcher<Calculation>() {
+            @Override
+            public boolean matchesSafely(Calculation calculation) {
+                return ((operand1 == calculation.getOperand1()) && (operand2 == calculation.getOperand2()));
+            }
+
+            @Override
+            public void describeTo(Description description) {
+                String msg = String.format("A calculation with operands %s and %s", operand1, operand2);
+                description.appendText(msg);
+            }
+        };
     }
 }

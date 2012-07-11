@@ -16,10 +16,12 @@ import javax.annotation.PreDestroy;
 @Component
 public class DefaultCalculatorFacade implements CalculatorFacade {
     private Calculator calculator;
+    private CalculatorDao calculatorDao;
 
     @Autowired
-    public DefaultCalculatorFacade(Calculator calculator) {
+    public DefaultCalculatorFacade(Calculator calculator, CalculatorDao calculatorDao) {
         this.calculator = calculator;
+        this.calculatorDao = calculatorDao;
     }
 
     @PostConstruct
@@ -34,11 +36,11 @@ public class DefaultCalculatorFacade implements CalculatorFacade {
 
     @Override
     public int divide(Calculation calculation) {
-        String operand1String = String.valueOf(calculation.getOperand1());
-        String operand2String = String.valueOf(calculation.getOperand2());
         if (calculation.getOperand1() == null || calculation.getOperand2() == null) {
             throw new BadUserInputException("Not enough operands");
         }
+        String operand1String = String.valueOf(calculation.getOperand1());
+        String operand2String = String.valueOf(calculation.getOperand2());
         String result = calculator.enumCalculate("DIVIDE",operand1String,operand2String);
         if (result.equals("not enough operands or divide by zero")) {
             throw new BadUserInputException("Division by zero");
@@ -52,6 +54,7 @@ public class DefaultCalculatorFacade implements CalculatorFacade {
         } catch (NumberFormatException e) {
             throw new IllegalStateException("Unexpected string from calculator: "+ result,e);
         }
+        calculatorDao.save(calculation);
         return Integer.parseInt(result);  //To change body of created methods use File | Settings | File Templates.
     }
 }

@@ -47,4 +47,13 @@ public class Calculation {
     public void setResult(Integer result) {
         this.result = result;
     }
+
+    @Override
+    public String toString() {
+        return "Calculation{" +
+                "operand1=" + operand1 +
+                ", operand2=" + operand2 +
+                ", result=" + result +
+                '}';
+    }
 }

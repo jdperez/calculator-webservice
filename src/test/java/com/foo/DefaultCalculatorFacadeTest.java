@@ -33,7 +33,7 @@ public class DefaultCalculatorFacadeTest {
     public void setUp() throws Exception {
         calculator = mock(Calculator.class);
         calculatorDao = mock(CalculatorDao.class);
-        calculatorFacade = new DefaultCalculatorFacade(calculator);
+        calculatorFacade = new DefaultCalculatorFacade(calculator, calculatorDao);
     }
 
     @Test
@@ -96,6 +96,7 @@ public class DefaultCalculatorFacadeTest {
 
     @Test
     public void successfulStoreOfCalculation() throws Exception {
+        when(calculator.enumCalculate("DIVIDE","10","2")).thenReturn("5");
         Calculation calculation = new Calculation(10,2);
         calculatorFacade.divide(calculation);
         verify(calculatorDao).save(calculation);
