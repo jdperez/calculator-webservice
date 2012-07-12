@@ -87,7 +87,7 @@ public class RestfulCalculatorIT {
         ClientResponse response = resource.path("calculation").get(ClientResponse.class);
         assertThat(response.getStatus(), equalTo(200));
         Calculations calculations = response.getEntity(Calculations.class);
-        assertThat(calculations.getCalculations(),hasItem(calculation(10, 2, 5)));
+        assertThat(calculations.getCalculations(),hasItem(calculationOperandsOnly(10, 2)));
     }
 
     @Test
@@ -126,6 +126,22 @@ public class RestfulCalculatorIT {
             }
         };
     }
+
+    private Matcher<Calculation> calculationOperandsOnly(final int operand1, final int operand2) {
+        return new TypeSafeMatcher<Calculation>() {
+            @Override
+            public boolean matchesSafely(Calculation calculation) {
+                return ((operand1 == calculation.getOperand1()) && (operand2 == calculation.getOperand2()));
+            }
+
+            @Override
+            public void describeTo(Description description) {
+                String msg = String.format("A calculation with operands %s and %s", operand1, operand2);
+                description.appendText(msg);
+            }
+        };
+    }
+
 
 
 }

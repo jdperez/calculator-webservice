@@ -29,7 +29,8 @@ public class CalculatorJaxRsResource {
     @GET
     @Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
     public Calculations getHistory (@Context ServletContext servletContext) {
-        //TODO: Write me!
-        throw new UnsupportedOperationException("This crap doesn't work");
+        CalculatorFacade calculator = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext).getBean(CalculatorFacade.class);
+        Calculations calculations = calculator.loadAllCalculations();
+        return calculations;
     }
 }
