@@ -47,14 +47,17 @@ public class DirectJdbcCalculatorDao implements CalculatorDao {
         int maxKey = 0;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
+        Connection connection = null;
         try {
-            Connection connection = getConnection();
+            connection = getConnection();
             preparedStatement = connection.prepareStatement("SELECT key FROM CalculatorDatabase ");
             resultSet = preparedStatement.executeQuery();
             maxKey = findHighestKey(resultSet);
 
         } catch (SQLException e) {
             LOG.error("there was a problem accessing the database", e);
+        } finally {
+            closeStatementConnectionAndResultSet(connection,preparedStatement,resultSet);
         }
         return maxKey;
     }
@@ -81,6 +84,8 @@ public class DirectJdbcCalculatorDao implements CalculatorDao {
             runStatements(databaseInputs, insertKey, preparedStatement);
         } catch (SQLException e) {
             LOG.error("there was a problem accessing the database", e);
+        } finally {
+            closeStatementAndConnection(connection,preparedStatement);
         }
         LOG.error("current key # is: ", insertKey);
         return insertKey;
@@ -109,6 +114,8 @@ public class DirectJdbcCalculatorDao implements CalculatorDao {
             return runAndReturnData(resultSet);
         } catch (SQLException e){
             LOG.error("there was a problem accessing the database", e);
+        } finally {
+            closeStatementConnectionAndResultSet(connection, preparedStatement,resultSet);
         }
         return new String[0];
     }
@@ -117,6 +124,25 @@ public class DirectJdbcCalculatorDao implements CalculatorDao {
     public Calculation loadCalculation(int key) {
         //TODO:Write Me!
         throw new UnsupportedOperationException("Method not written-com.foo.DirectJdbcCalculatorDao.loadCalculation");
+    }
+
+    private void closeStatementAndConnection(Connection connection, PreparedStatement statement) {
+        try {
+            connection.close();
+            statement.close();
+        } catch (SQLException e) {
+            LOG.error("Unable to close database objects",e);
+        }
+    }
+
+    private void closeStatementConnectionAndResultSet(Connection connection, PreparedStatement statement, ResultSet resultSet) {
+        try {
+            connection.close();
+            statement.close();
+            resultSet.close();
+        } catch (SQLException e) {
+            LOG.error("Unable to close database objects",e);
+        }
     }
 
     private PreparedStatement prepareTheStatement(int key, Connection connection) throws SQLException {
@@ -150,8 +176,9 @@ public class DirectJdbcCalculatorDao implements CalculatorDao {
 
         } catch (SQLException ex) {
              LOG.error("There was a problem accessing the database", ex);
+        } finally {
+            closeStatementAndConnection(connection,statement);
         }
-
     }
 
     @Override
