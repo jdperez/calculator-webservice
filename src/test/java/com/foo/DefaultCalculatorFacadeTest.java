@@ -110,8 +110,9 @@ public class DefaultCalculatorFacadeTest {
     }
 
     @Test
-    public void getAllSavedCalculationsFromDao() throws Exception {
-
+    public void loadAllSavedCalculationsFromDao() throws Exception {
+        calculatorFacade.loadAllCalculations();
+        verify(calculatorDao).loadAll();
     }
 
     private Calculation calculation(Integer operand1, Integer operand2) {

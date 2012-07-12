@@ -9,4 +9,6 @@ package com.foo;
  */
 public interface CalculatorFacade {
     int divide(Calculation calculation) throws IllegalArgumentException;
+
+    Calculations loadAllCalculations();
 }

@@ -59,6 +59,11 @@ public class DefaultCalculatorFacade implements CalculatorFacade {
         return Integer.parseInt(result);  //To change body of created methods use File | Settings | File Templates.
     }
 
+    @Override
+    public Calculations loadAllCalculations() {
+        return calculatorDao.loadAll();
+    }
+
     private void createTable() {
         calculatorDao.createTable();
     }
