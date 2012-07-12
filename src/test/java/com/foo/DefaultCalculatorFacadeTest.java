@@ -102,6 +102,18 @@ public class DefaultCalculatorFacadeTest {
         verify(calculatorDao).save(calculation);
     }
 
+    @Test
+    public void createTableSuccessfullyCalledInConstructor() throws Exception {
+        calculatorDao = mock(CalculatorDao.class);
+        new DefaultCalculatorFacade(calculator,calculatorDao);
+        verify(calculatorDao).createTable();
+    }
+
+    @Test
+    public void getAllSavedCalculationsFromDao() throws Exception {
+
+    }
+
     private Calculation calculation(Integer operand1, Integer operand2) {
         return new Calculation(operand1, operand2);
     }

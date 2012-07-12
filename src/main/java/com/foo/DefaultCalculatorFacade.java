@@ -22,6 +22,7 @@ public class DefaultCalculatorFacade implements CalculatorFacade {
     public DefaultCalculatorFacade(Calculator calculator, CalculatorDao calculatorDao) {
         this.calculator = calculator;
         this.calculatorDao = calculatorDao;
+        createTable();
     }
 
     @PostConstruct
@@ -35,6 +36,8 @@ public class DefaultCalculatorFacade implements CalculatorFacade {
     }
 
     @Override
+    /* TODO: In order to get back the key from the save() call, I would need to introduce rethink our logic. One possibility is to
+     add a key field in Calculation.*/
     public int divide(Calculation calculation) {
         if (calculation.getOperand1() == null || calculation.getOperand2() == null) {
             throw new BadUserInputException("Not enough operands");
@@ -56,5 +59,9 @@ public class DefaultCalculatorFacade implements CalculatorFacade {
         }
         calculatorDao.save(calculation);
         return Integer.parseInt(result);  //To change body of created methods use File | Settings | File Templates.
+    }
+
+    private void createTable() {
+        calculatorDao.createTable();
     }
 }

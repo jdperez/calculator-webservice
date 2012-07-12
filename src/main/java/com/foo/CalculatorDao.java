@@ -18,7 +18,7 @@ public interface CalculatorDao {
 
     Calculation loadCalculation(int key);
 
-    void createTable();
-
     Calculations loadAll();
+
+    void createTable();
 }
