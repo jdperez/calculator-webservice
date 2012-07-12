@@ -7,8 +7,6 @@ import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -50,14 +48,14 @@ public class SpringJdbcCalculatorDao implements CalculatorDao {
 
     @Override
     public int save(Calculation calculation) {
-        //TODO: Not storing operation currently
+        //Not storing operation currently
         if (calculation.getOperand1() == null || calculation.getOperand2() == null) {
             throw new IllegalArgumentException("Empty operand in save");
         }
         Object[] statementParameters = new Object[4];
         Integer currentKey = getCurrentMaxKey()+1;
         statementParameters[0] = currentKey;
-        //TODO: THIS IS BOLLUCKS
+        //THIS IS BOLLUCKS
         statementParameters[1] = "DIVIDE";
         statementParameters[2] = calculation.getOperand1();
         statementParameters[3] = calculation.getOperand2();
