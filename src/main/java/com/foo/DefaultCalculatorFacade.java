@@ -17,6 +17,8 @@ import javax.annotation.PreDestroy;
 public class DefaultCalculatorFacade implements CalculatorFacade {
     private Calculator calculator;
     private CalculatorDao calculatorDao;
+    private static final int MAX_VALUE = 10;
+    private static final int MIN_VALUE = 0;
 
     @Autowired
     public DefaultCalculatorFacade(Calculator calculator, CalculatorDao calculatorDao) {
@@ -34,7 +36,7 @@ public class DefaultCalculatorFacade implements CalculatorFacade {
     }
 
     @Override
-    /* TODO: In order to get back the key from the save() call, I would need to introduce rethink our logic. One possibility is to
+    /* In order to get back the key from the save() call, I would need to introduce rethink our logic. One possibility is to
      add a key field in Calculation.*/
     public int divide(Calculation calculation) {
         if (calculation.getOperand1() == null || calculation.getOperand2() == null) {
@@ -47,9 +49,9 @@ public class DefaultCalculatorFacade implements CalculatorFacade {
             throw new BadUserInputException("Division by zero");
         }
         try {
-            if (Integer.valueOf(result) > 10) {
+            if (Integer.valueOf(result) > MAX_VALUE) {
                 throw new BadUserInputException("Result greater than 10");
-            } else if (Integer.valueOf(result) < 0) {
+            } else if (Integer.valueOf(result) < MIN_VALUE) {
                 throw new BadUserInputException("Result less than 0");
             }
         } catch (NumberFormatException e) {

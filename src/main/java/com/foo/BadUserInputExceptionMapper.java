@@ -13,8 +13,9 @@ import javax.ws.rs.ext.Provider;
  */
 @Provider
 public class BadUserInputExceptionMapper implements ExceptionMapper<BadUserInputException> {
+    private static final int BAD_REQUEST = 400;
     @Override
     public Response toResponse(BadUserInputException e) {
-        return Response.status(400).entity(e.getMessage()).build();
+        return Response.status(BAD_REQUEST).entity(e.getMessage()).build();
     }
 }

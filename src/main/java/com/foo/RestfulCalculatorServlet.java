@@ -22,6 +22,7 @@ import java.util.regex.Pattern;
  * To change this template use File | Settings | File Templates.
  */
 public class RestfulCalculatorServlet extends HttpServlet{
+    private static final int BAD_REQUEST = 400;
     private CalculatorFacade calculator;
     private CalculatorDao calculatorDao;
 
@@ -62,7 +63,7 @@ public class RestfulCalculatorServlet extends HttpServlet{
             }
         }
         if (operand1 == null || operand2 == null) {
-            response.sendError(400, "Not enough operands.");
+            response.sendError(BAD_REQUEST, "Not enough operands.");
         }
         String resultJson = "\"value\": 5";
         out.print(resultJson);
@@ -84,7 +85,7 @@ public class RestfulCalculatorServlet extends HttpServlet{
             }
         }
         if (operand1 == null || operand2 == null) {
-            response.sendError(400, "Not enough operands.");
+            response.sendError(BAD_REQUEST, "Not enough operands.");
         }
     }
 
