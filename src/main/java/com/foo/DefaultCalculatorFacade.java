@@ -35,19 +35,13 @@ public class DefaultCalculatorFacade implements CalculatorFacade {
     public void shutDown() {
     }
 
+    /*
+     In order to get back the key from the save() call, I would need to introduce rethink our logic. One possibility is to
+     add a key field in Calculation.
+     */
     @Override
-    /* In order to get back the key from the save() call, I would need to introduce rethink our logic. One possibility is to
-     add a key field in Calculation.*/
     public int divide(Calculation calculation) {
-        if (calculation.getOperand1() == null || calculation.getOperand2() == null) {
-            throw new BadUserInputException("Not enough operands");
-        }
-        String operand1String = String.valueOf(calculation.getOperand1());
-        String operand2String = String.valueOf(calculation.getOperand2());
-        String result = calculator.enumCalculate("DIVIDE",operand1String,operand2String);
-        if (("not enough operands or divide by zero").equals(result)) {
-            throw new BadUserInputException("Division by zero");
-        }
+        String result = parseCalculation(calculation);
         try {
             if (Integer.valueOf(result) > MAX_VALUE) {
                 throw new BadUserInputException("Result greater than 10");
@@ -58,7 +52,20 @@ public class DefaultCalculatorFacade implements CalculatorFacade {
             throw new IllegalStateException("Unexpected string from calculator: "+ result,e);
         }
         calculatorDao.save(calculation);
-        return Integer.parseInt(result);  //To change body of created methods use File | Settings | File Templates.
+        return Integer.parseInt(result);
+    }
+
+    private String parseCalculation(Calculation calculation) {
+        if (calculation.getOperand1() == null || calculation.getOperand2() == null) {
+            throw new BadUserInputException("Not enough operands");
+        }
+        String operand1String = String.valueOf(calculation.getOperand1());
+        String operand2String = String.valueOf(calculation.getOperand2());
+        String result = calculator.enumCalculate("DIVIDE",operand1String,operand2String);
+        if (("not enough operands or divide by zero").equals(result)) {
+            throw new BadUserInputException("Division by zero");
+        }
+        return result;
     }
 
     @Override

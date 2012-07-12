@@ -151,6 +151,7 @@ public class DirectJdbcCalculatorDao implements CalculatorDao {
         } catch (SQLException ex) {
              LOG.error("There was a problem accessing the database", ex);
         }
+
     }
 
     @Override
