@@ -19,6 +19,15 @@ import java.util.List;
 @Component
 public class SpringJdbcCalculatorDao implements CalculatorDao {
     private JdbcOperations jdbcOperations;
+    private static final int KEY_INDEX = 0;
+    private static final int OPERATOR_INDEX = 1;
+    private static final int OPERAND_1_INDEX = 2;
+    private static final int OPERAND_2_INDEX = 3;
+    private static final int STATEMENT_SIZE = 4;
+    private static final int OPERATOR_COLUMN = 2;
+    private static final int OPERAND_1_COLUMN = 3;
+    private static final int OPERAND_2_COLUMN = 4;
+
 
     @Autowired
     public SpringJdbcCalculatorDao(JdbcOperations jdbcOperations) {
@@ -39,9 +48,9 @@ public class SpringJdbcCalculatorDao implements CalculatorDao {
             }
         }
         int currentKey = getCurrentMaxKey() +1;
-        Object[] statementParameters = new Object[4];
+        Object[] statementParameters = new Object[STATEMENT_SIZE];
         System.arraycopy(databaseInputs,0,statementParameters,1,databaseInputs.length);
-        statementParameters[0] = currentKey;
+        statementParameters[KEY_INDEX] = currentKey;
         jdbcOperations.update("INSERT INTO CalculatorDatabase VALUES (?,?,?,?)", statementParameters);
         return currentKey;
     }
@@ -52,13 +61,13 @@ public class SpringJdbcCalculatorDao implements CalculatorDao {
         if (calculation.getOperand1() == null || calculation.getOperand2() == null) {
             throw new IllegalArgumentException("Empty operand in save");
         }
-        Object[] statementParameters = new Object[4];
+        Object[] statementParameters = new Object[STATEMENT_SIZE];
         Integer currentKey = getCurrentMaxKey()+1;
-        statementParameters[0] = currentKey;
+        statementParameters[KEY_INDEX] = currentKey;
         //THIS IS BOLLUCKS
-        statementParameters[1] = "DIVIDE";
-        statementParameters[2] = calculation.getOperand1();
-        statementParameters[3] = calculation.getOperand2();
+        statementParameters[OPERATOR_INDEX] = "DIVIDE";
+        statementParameters[OPERAND_1_INDEX] = calculation.getOperand1();
+        statementParameters[OPERAND_2_INDEX] = calculation.getOperand2();
         jdbcOperations.update("INSERT INTO CalculatorDatabase VALUES (?,?,?,?)", statementParameters);
         return currentKey;
     }
@@ -68,7 +77,7 @@ public class SpringJdbcCalculatorDao implements CalculatorDao {
         String[] result = jdbcOperations.queryForObject("SELECT * FROM CalculatorDatabase Where key=?", new Object[]{key}, new RowMapper<String[]>() {
             @Override
             public String[] mapRow(ResultSet rs, int rowNum) throws SQLException {
-                return new String[]{rs.getString(2), rs.getString(3), rs.getString(4)};
+                return new String[]{rs.getString(OPERATOR_COLUMN), rs.getString(OPERAND_1_COLUMN), rs.getString(OPERAND_2_COLUMN)};
             }
         });
         return result;
@@ -79,7 +88,7 @@ public class SpringJdbcCalculatorDao implements CalculatorDao {
         Calculation result = jdbcOperations.queryForObject("SELECT * FROM CalculatorDatabase Where key=?", new Object[]{key}, new RowMapper<Calculation>() {
             @Override
             public Calculation mapRow(ResultSet rs, int rowNum) throws SQLException {
-                return new Calculation(rs.getInt(3),rs.getInt(4));
+                return new Calculation(rs.getInt(OPERAND_1_COLUMN),rs.getInt(OPERAND_2_COLUMN));
             }
         });
         return result;
@@ -91,8 +100,8 @@ public class SpringJdbcCalculatorDao implements CalculatorDao {
             @Override
             public Calculation mapRow(ResultSet rs, int rowNum) throws SQLException {
                 Calculation calculation = new Calculation();
-                calculation.setOperand1(rs.getInt(3));
-                calculation.setOperand2(rs.getInt(4));
+                calculation.setOperand1(rs.getInt(OPERAND_1_COLUMN));
+                calculation.setOperand2(rs.getInt(OPERAND_2_COLUMN));
                 return calculation;
             }
         });

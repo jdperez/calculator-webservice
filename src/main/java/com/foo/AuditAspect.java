@@ -17,7 +17,6 @@ public class AuditAspect {
 
     @Before("execution(* divide(..)) || execution(* enumCalculate(..))")
     public void doAuditing() {
-        System.out.println("doAuditing is called");
     }
 
 }

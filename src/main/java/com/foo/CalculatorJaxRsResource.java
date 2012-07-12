@@ -30,7 +30,6 @@ public class CalculatorJaxRsResource {
     @Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
     public Calculations getHistory (@Context ServletContext servletContext) {
         CalculatorFacade calculator = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext).getBean(CalculatorFacade.class);
-        Calculations calculations = calculator.loadAllCalculations();
-        return calculations;
+        return calculator.loadAllCalculations();
     }
 }

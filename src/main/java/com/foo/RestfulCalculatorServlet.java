@@ -51,7 +51,6 @@ public class RestfulCalculatorServlet extends HttpServlet{
         Pattern operand1Pattern = Pattern.compile("\"operand1\": (.+),");
         Pattern operand2Pattern = Pattern.compile("\"operand2\": (.+) ");
         String operand1 = null, operand2 = null;
-
         while ((line = reader.readLine()) != null) {
             Matcher matcher1 = operand1Pattern.matcher(line);
             Matcher matcher2 = operand2Pattern.matcher(line);
@@ -65,21 +64,18 @@ public class RestfulCalculatorServlet extends HttpServlet{
         if (operand1 == null || operand2 == null) {
             response.sendError(400, "Not enough operands.");
         }
-        //String result = calculator.divide(new Calculation(Integer.valueOf(operand1),Integer.valueOf(operand2)));
         String resultJson = "\"value\": 5";
         out.print(resultJson);
-
     }
 
     private void xmlPost(PrintWriter out, BufferedReader reader, HttpServletResponse response) throws IOException {
         String line;
-        Pattern Operand1Pattern = Pattern.compile("<operand1>(.+)</operand1>");
-        Pattern Operand2Pattern = Pattern.compile("<operand2>(.+)</operand2>");
+        Pattern operand1Pattern = Pattern.compile("<operand1>(.+)</operand1>");
+        Pattern operand2Pattern = Pattern.compile("<operand2>(.+)</operand2>");
         String operand1 = null, operand2 = null;
-
         while ((line = reader.readLine()) != null) {
-            Matcher matcher1 = Operand1Pattern.matcher(line);
-            Matcher matcher2 = Operand2Pattern.matcher(line);
+            Matcher matcher1 = operand1Pattern.matcher(line);
+            Matcher matcher2 = operand2Pattern.matcher(line);
             if (matcher1.find()) {
                 operand1 = matcher1.group(1);
             }
@@ -90,11 +86,7 @@ public class RestfulCalculatorServlet extends HttpServlet{
         if (operand1 == null || operand2 == null) {
             response.sendError(400, "Not enough operands.");
         }
-        //String result = calculator.divide(new Calculation(Integer.valueOf(operand1),Integer.valueOf(operand2)));
-        //String resultXml = "<result>"+result+"</result>";
-        //out.print(resultXml);
     }
-
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("/WEB-INF/jsp/client_form.jsp").forward(req,resp);
