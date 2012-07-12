@@ -66,7 +66,6 @@ public class CalculatorServlet extends HttpServlet {
 
     private void getHistory(Integer startKey, PrintWriter out) {
         int currentMaxKey = calculatorDAO.getCurrentMaxKey();
-        System.out.println(currentMaxKey);
         for (int i = startKey; i <= currentMaxKey; i++) {
             String[] history = calculatorDAO.load(i);
             String operator = history[0];

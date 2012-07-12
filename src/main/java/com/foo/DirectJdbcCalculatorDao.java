@@ -56,7 +56,6 @@ public class DirectJdbcCalculatorDao implements CalculatorDao {
         } catch (SQLException e) {
             LOG.error("there was a problem accessing the database", e);
         }
-        //System.out.println(maxKey);
         return maxKey;
     }
 

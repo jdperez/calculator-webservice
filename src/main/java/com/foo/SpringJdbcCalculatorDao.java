@@ -36,7 +36,7 @@ public class SpringJdbcCalculatorDao implements CalculatorDao {
     public int save(String[] databaseInputs) {
         for (int i = 0; i < databaseInputs.length; i++) {
             String databaseInput = databaseInputs[i];
-            if (databaseInput.equals("")) {
+            if (("").equals(databaseInput)) {
                 throw new IllegalArgumentException("Empty operand in save");
             }
         }

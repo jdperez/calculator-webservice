@@ -32,5 +32,4 @@ public class CalculatorJaxRsResource {
         //TODO: Write me!
         throw new UnsupportedOperationException("This crap doesn't work");
     }
-
 }

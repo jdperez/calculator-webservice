@@ -27,12 +27,10 @@ public class DefaultCalculatorFacade implements CalculatorFacade {
 
     @PostConstruct
     public void startingUp() {
-        System.out.println("CalculatorFacade is starting up");
     }
 
     @PreDestroy
     public void shutDown() {
-        System.out.println("CalculatorFacade is shutting down");
     }
 
     @Override
@@ -45,7 +43,7 @@ public class DefaultCalculatorFacade implements CalculatorFacade {
         String operand1String = String.valueOf(calculation.getOperand1());
         String operand2String = String.valueOf(calculation.getOperand2());
         String result = calculator.enumCalculate("DIVIDE",operand1String,operand2String);
-        if (result.equals("not enough operands or divide by zero")) {
+        if (("not enough operands or divide by zero").equals(result)) {
             throw new BadUserInputException("Division by zero");
         }
         try {

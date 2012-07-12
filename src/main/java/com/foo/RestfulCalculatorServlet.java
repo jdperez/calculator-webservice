@@ -37,7 +37,6 @@ public class RestfulCalculatorServlet extends HttpServlet{
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         PrintWriter out = resp.getWriter();
         BufferedReader reader = req.getReader();
-        System.out.println("header string is "+req.getHeader("accept"));
         if (req.getHeader("accept").matches("application/xml")){
             resp.setContentType("application/xml");
             xmlPost(out, reader, resp);
@@ -97,26 +96,8 @@ public class RestfulCalculatorServlet extends HttpServlet{
         //out.print(resultXml);
     }
 
-    private void checkNumberOfOperands() {
-
-    }
-
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("/WEB-INF/jsp/client_form.jsp").forward(req,resp);
     }
-
-/*
-    public static void main(String[] args) {
-        String s = "hello world";
-        Pattern pattern = Pattern.compile(".(l.)");
-        Matcher matcher = pattern.matcher(s);
-        System.out.println(matcher.find());
-        System.out.println("0:" + matcher.group(0) + " 1:" + matcher.group(1));
-        System.out.println(matcher.find());
-        System.out.println("0:" + matcher.group(0) + " 1:" + matcher.group(1));
-        System.out.println(matcher.find());
-        System.out.println("0:" + matcher.group(0) + " 1:" + matcher.group(1));
-    }
-*/
 }
