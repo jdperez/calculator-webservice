@@ -3,8 +3,10 @@ package com.foo;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.internal.matchers.TypeSafeMatcher;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -36,6 +38,24 @@ public class SpringJdbcCalculatorDaoTest extends AbstractCalculatorDaoTest {
     }
 
     @Test
+    public void saveMissingOperand1ThrowsException() throws Exception {
+        expectedException.expect(IllegalArgumentException.class);
+        databaseFoo.save(new Calculation(null,1));
+    }
+
+    @Test
+    public void saveMissingOperand2ThrowsException() throws Exception {
+        expectedException.expect(IllegalArgumentException.class);
+        databaseFoo.save(new Calculation(1,null));
+    }
+
+    @Test
+    public void saveMissingBothOperandsThrowsException() throws Exception {
+        expectedException.expect(IllegalArgumentException.class);
+        databaseFoo.save(new Calculation(null,null));
+    }
+
+    @Test
     public void successfulSaveUsingCalculationObject() throws Exception {
         Calculation input = new Calculation(10,2);
         int key = databaseFoo.save(input);
@@ -50,11 +70,6 @@ public class SpringJdbcCalculatorDaoTest extends AbstractCalculatorDaoTest {
         databaseFoo.save(new Calculation(6,3));
         databaseFoo.save(new Calculation(12,2));
         Calculations output = databaseFoo.loadAll();
-        Iterator<Calculation> iterator = output.getCalculations().iterator();
-        while (iterator.hasNext()) {
-            Calculation calculation = iterator.next();
-            System.out.println(calculation.getOperand1()+" "+calculation.getOperand2());
-        }
         assertThat(output.getCalculations(),hasItem(calculation(25,5)));
         assertThat(output.getCalculations(),hasItem(calculation(6,3)));
         assertThat(output.getCalculations(),hasItem(calculation(12,2)));

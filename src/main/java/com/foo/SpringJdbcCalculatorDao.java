@@ -48,7 +48,7 @@ public class SpringJdbcCalculatorDao implements CalculatorDao {
 
     @Override
     public int save(Calculation calculation) {
-        //Not storing operation currently
+        //Not storing operator currently
         if (calculation.getOperand1() == null || calculation.getOperand2() == null) {
             throw new IllegalArgumentException("Empty operand in save");
         }
