@@ -1,5 +1,6 @@
 package com.foo;
 
+import org.springframework.stereotype.Component;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.ServletContext;
@@ -14,6 +15,7 @@ import javax.ws.rs.core.MediaType;
  * Time: 3:59 PM
  * To change this template use File | Settings | File Templates.
  */
+@Component
 @Path("calculation")
 public class CalculatorJaxRsResource {
     @POST

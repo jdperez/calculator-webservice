@@ -1,5 +1,7 @@
 package com.foo;
 
+import org.springframework.stereotype.Component;
+
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
@@ -11,6 +13,7 @@ import javax.ws.rs.ext.Provider;
  * Time: 4:57 PM
  * To change this template use File | Settings | File Templates.
  */
+@Component
 @Provider
 public class BadUserInputExceptionMapper implements ExceptionMapper<BadUserInputException> {
     private static final int BAD_REQUEST = 400;
