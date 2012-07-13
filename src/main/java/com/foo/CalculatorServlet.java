@@ -38,9 +38,10 @@ public class CalculatorServlet extends HttpServlet {
         PrintWriter out = resp.getWriter();
         HttpSession httpSession = req.getSession(true);
         Integer startKey = (Integer) httpSession.getAttribute("tracker.startKey");
-        if (startKey == null) {
+        /*if (startKey == null) {
             startKey = 1; //calculatorDAO.getCurrentMaxKey();
-        }
+        }*/
+        startKey = 1;
         httpSession.setAttribute("tracker.startKey", startKey);
         String operator = req.getParameter("operator");
         if ("HISTORY".equals(operator)) {

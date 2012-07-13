@@ -53,7 +53,7 @@ public class RestfulCalculatorServlet extends HttpServlet{
     private void jsonPost(PrintWriter out, BufferedReader reader, HttpServletResponse response) throws IOException {
         Pattern operand1Pattern = Pattern.compile("\"operand1\": (.+),");
         Pattern operand2Pattern = Pattern.compile("\"operand2\": (.+) ");
-        Calculation calculation = parseIntegersFromResponse(reader, response, operand1Pattern, operand2Pattern);
+        //Calculation calculation = parseIntegersFromResponse(reader, response, operand1Pattern, operand2Pattern);
         String resultJson = "\"value\": 5";
         out.print(resultJson);
     }
@@ -61,12 +61,12 @@ public class RestfulCalculatorServlet extends HttpServlet{
     private void xmlPost(PrintWriter out, BufferedReader reader, HttpServletResponse response) throws IOException {
         Pattern operand1Pattern = Pattern.compile("<operand1>(.+)</operand1>");
         Pattern operand2Pattern = Pattern.compile("<operand2>(.+)</operand2>");
-        Calculation calculation = parseIntegersFromResponse(reader, response, operand1Pattern, operand2Pattern);
+        //Calculation calculation = parseIntegersFromResponse(reader, response, operand1Pattern, operand2Pattern);
     }
 
     private Calculation parseIntegersFromResponse(BufferedReader reader, HttpServletResponse response, Pattern operand1Pattern, Pattern operand2Pattern) throws IOException {
         String line;
-        String operand1 = null, operand2 = null;
+        String operand1 = "", operand2 = "";
         while ((line = reader.readLine()) != null) {
             Matcher matcher1 = operand1Pattern.matcher(line);
             Matcher matcher2 = operand2Pattern.matcher(line);
@@ -77,7 +77,7 @@ public class RestfulCalculatorServlet extends HttpServlet{
                 operand2 = matcher2.group(1);
             }
         }
-        if (operand1 == null || operand2 == null) {
+        if (("").equals(operand1) || ("").equals(operand2)) {
             response.sendError(BAD_REQUEST, "Not enough operands.");
         }
         Calculation calculation = new Calculation();
