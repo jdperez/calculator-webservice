@@ -37,11 +37,11 @@ public class CalculatorServlet extends HttpServlet {
         resp.setContentType("text/html");
         PrintWriter out = resp.getWriter();
         HttpSession httpSession = req.getSession(true);
-        Integer startKey = (Integer) httpSession.getAttribute("tracker.startKey");
-        /*if (startKey == null) {
+        /*Integer startKey = (Integer) httpSession.getAttribute("tracker.startKey");
+        if (startKey == null) {
             startKey = 1; //calculatorDAO.getCurrentMaxKey();
         }*/
-        startKey = 1;
+        Integer startKey = 1;
         httpSession.setAttribute("tracker.startKey", startKey);
         String operator = req.getParameter("operator");
         if ("HISTORY".equals(operator)) {

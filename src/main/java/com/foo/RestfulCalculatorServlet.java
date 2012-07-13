@@ -40,7 +40,8 @@ public class RestfulCalculatorServlet extends HttpServlet{
         if (req.getHeader("accept").matches("application/xml")){
             resp.setContentType("application/xml");
             xmlPost(out, reader, resp);
-        }  else if (req.getHeader("accept").matches("application/json")) {
+        //}  else if (req.getHeader("accept").matches("application/json")) {
+        }  else  {
             resp.setContentType("application/json");
             jsonPost(out, reader, resp);
         }

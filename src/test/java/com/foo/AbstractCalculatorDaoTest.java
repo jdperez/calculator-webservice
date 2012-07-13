@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -29,6 +30,13 @@ public abstract class AbstractCalculatorDaoTest {
     public void setUp() {
         databaseFoo = getDaoInstance();
         databaseFoo.createTable();
+    }
+
+    @Test
+    public void successfulCallToConstructor() throws Exception {
+        DirectJdbcCalculatorDao calculatorDao = new DirectJdbcCalculatorDao("sa", "sa");
+        int key = calculatorDao.getCurrentMaxKey();
+        assertThat(key, greaterThanOrEqualTo(0));
     }
 
     @Test
