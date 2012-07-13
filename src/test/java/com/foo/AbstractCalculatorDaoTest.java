@@ -33,10 +33,15 @@ public abstract class AbstractCalculatorDaoTest {
     }
 
     @Test
-    public void successfulCallToConstructor() throws Exception {
-        DirectJdbcCalculatorDao calculatorDao = new DirectJdbcCalculatorDao("sa", "sa");
-        int key = calculatorDao.getCurrentMaxKey();
-        assertThat(key, greaterThanOrEqualTo(0));
+    public void nullPasswordThrowsException() throws Exception {
+        expectedException.expect(IllegalArgumentException.class);
+        new DirectJdbcCalculatorDao("sa",null);
+    }
+
+    @Test
+    public void nullUsernameThrowsException() throws Exception {
+        expectedException.expect(IllegalArgumentException.class);
+        new DirectJdbcCalculatorDao(null,"sa");
     }
 
     @Test
@@ -61,6 +66,13 @@ public abstract class AbstractCalculatorDaoTest {
     public void emptyStringThrowsExceptionInSave() {
         expectedException.expect(IllegalArgumentException.class);
         String[] databaseInputs = {"","","",""};
+        databaseFoo.save(databaseInputs);
+    }
+
+    @Test
+    public void nullStringThrowsExceptionInSave() throws Exception {
+        expectedException.expect(IllegalArgumentException.class);
+        String[] databaseInputs = {null,"","",""};
         databaseFoo.save(databaseInputs);
     }
 
