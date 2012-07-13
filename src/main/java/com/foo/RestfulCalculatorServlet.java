@@ -43,53 +43,46 @@ public class RestfulCalculatorServlet extends HttpServlet{
         }  else if (req.getHeader("accept").matches("application/json")) {
             resp.setContentType("application/json");
             jsonPost(out, reader, resp);
-
-        }
-    }
-
-    private void jsonPost(PrintWriter out, BufferedReader reader, HttpServletResponse response) throws IOException {
-        String line;
-        Pattern operand1Pattern = Pattern.compile("\"operand1\": (.+),");
-        Pattern operand2Pattern = Pattern.compile("\"operand2\": (.+) ");
-        String operand1 = null, operand2 = null;
-        while ((line = reader.readLine()) != null) {
-            Matcher matcher1 = operand1Pattern.matcher(line);
-            Matcher matcher2 = operand2Pattern.matcher(line);
-            if (matcher1.find()) {
-                operand1 = matcher1.group(1);
-            }
-            if (matcher2.find()) {
-                operand2 = matcher2.group(1);
-            }
-        }
-        if (operand1 == null || operand2 == null) {
-            response.sendError(BAD_REQUEST, "Not enough operands.");
-        }
-        String resultJson = "\"value\": 5";
-        out.print(resultJson);
-    }
-
-    private void xmlPost(PrintWriter out, BufferedReader reader, HttpServletResponse response) throws IOException {
-        String line;
-        Pattern operand1Pattern = Pattern.compile("<operand1>(.+)</operand1>");
-        Pattern operand2Pattern = Pattern.compile("<operand2>(.+)</operand2>");
-        String operand1 = null, operand2 = null;
-        while ((line = reader.readLine()) != null) {
-            Matcher matcher1 = operand1Pattern.matcher(line);
-            Matcher matcher2 = operand2Pattern.matcher(line);
-            if (matcher1.find()) {
-                operand1 = matcher1.group(1);
-            }
-            if (matcher2.find()) {
-                operand2 = matcher2.group(1);
-            }
-        }
-        if (operand1 == null || operand2 == null) {
-            response.sendError(BAD_REQUEST, "Not enough operands.");
         }
     }
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("/WEB-INF/jsp/client_form.jsp").forward(req,resp);
+    }
+
+    private void jsonPost(PrintWriter out, BufferedReader reader, HttpServletResponse response) throws IOException {
+        Pattern operand1Pattern = Pattern.compile("\"operand1\": (.+),");
+        Pattern operand2Pattern = Pattern.compile("\"operand2\": (.+) ");
+        Calculation calculation = parseIntegersFromResponse(reader, response, operand1Pattern, operand2Pattern);
+        String resultJson = "\"value\": 5";
+        out.print(resultJson);
+    }
+
+    private void xmlPost(PrintWriter out, BufferedReader reader, HttpServletResponse response) throws IOException {
+        Pattern operand1Pattern = Pattern.compile("<operand1>(.+)</operand1>");
+        Pattern operand2Pattern = Pattern.compile("<operand2>(.+)</operand2>");
+        Calculation calculation = parseIntegersFromResponse(reader, response, operand1Pattern, operand2Pattern);
+    }
+
+    private Calculation parseIntegersFromResponse(BufferedReader reader, HttpServletResponse response, Pattern operand1Pattern, Pattern operand2Pattern) throws IOException {
+        String line;
+        String operand1 = null, operand2 = null;
+        while ((line = reader.readLine()) != null) {
+            Matcher matcher1 = operand1Pattern.matcher(line);
+            Matcher matcher2 = operand2Pattern.matcher(line);
+            if (matcher1.find()) {
+                operand1 = matcher1.group(1);
+            }
+            if (matcher2.find()) {
+                operand2 = matcher2.group(1);
+            }
+        }
+        if (operand1 == null || operand2 == null) {
+            response.sendError(BAD_REQUEST, "Not enough operands.");
+        }
+        Calculation calculation = new Calculation();
+        calculation.setOperand1(Integer.parseInt(operand1));
+        calculation.setOperand2(Integer.parseInt(operand2));
+        return calculation;
     }
 }
