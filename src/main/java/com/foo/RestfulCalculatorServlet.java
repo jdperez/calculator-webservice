@@ -53,7 +53,7 @@ public class RestfulCalculatorServlet extends HttpServlet{
     private void jsonPost(PrintWriter out, BufferedReader reader, HttpServletResponse response) throws IOException {
         Pattern operand1Pattern = Pattern.compile("\"operand1\": (.+),");
         Pattern operand2Pattern = Pattern.compile("\"operand2\": (.+) ");
-        //Calculation calculation = parseIntegersFromResponse(reader, response, operand1Pattern, operand2Pattern);
+        Calculation calculation = parseIntegersFromResponse(reader, response, operand1Pattern, operand2Pattern);
         String resultJson = "\"value\": 5";
         out.print(resultJson);
     }
@@ -61,7 +61,7 @@ public class RestfulCalculatorServlet extends HttpServlet{
     private void xmlPost(PrintWriter out, BufferedReader reader, HttpServletResponse response) throws IOException {
         Pattern operand1Pattern = Pattern.compile("<operand1>(.+)</operand1>");
         Pattern operand2Pattern = Pattern.compile("<operand2>(.+)</operand2>");
-        //Calculation calculation = parseIntegersFromResponse(reader, response, operand1Pattern, operand2Pattern);
+        Calculation calculation = parseIntegersFromResponse(reader, response, operand1Pattern, operand2Pattern);
     }
 
     private Calculation parseIntegersFromResponse(BufferedReader reader, HttpServletResponse response, Pattern operand1Pattern, Pattern operand2Pattern) throws IOException {
